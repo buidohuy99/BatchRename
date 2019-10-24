@@ -20,9 +20,69 @@ namespace BatchRename
     /// </summary>
     public partial class MainWindow : Window
     {
+        class File
+        {
+
+        }
+
+        class Folder
+        {
+
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OptionButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddMethodButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExcludeFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExcludeFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
