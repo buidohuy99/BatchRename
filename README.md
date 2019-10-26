@@ -1,2 +1,1 @@
-Project: Batch Rename
-Subject: Windows Programming
+PROJECT: BATCH RENAME
