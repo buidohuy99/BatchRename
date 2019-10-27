@@ -41,7 +41,7 @@ namespace BatchRename
                 WorkerSupportsCancellation = true
             };
             fetchFilesWorker.DoWork += FetchFiles_DoWork;
-            fetchFilesWorker.ProgressChanged += FetchFiles_ProgressChanged;
+            fetchFilesWorker.ProgressChanged += ProgressChanged;
             fetchFilesWorker.RunWorkerCompleted += RunWorkerCompleted;
 
             //Create exclude files worker to invoke on click
@@ -50,9 +50,8 @@ namespace BatchRename
                 WorkerSupportsCancellation = true,
             };
             excludeFilesWorker.DoWork += ExcludeFiles_DoWork;
-            excludeFilesWorker.ProgressChanged += ExcludeFiles_ProgressChanged;
+            excludeFilesWorker.ProgressChanged += ProgressChanged;
             excludeFilesWorker.RunWorkerCompleted += RunWorkerCompleted;
-
 
 
         }
@@ -83,14 +82,9 @@ namespace BatchRename
             EnableLoadingViews();
         }
 
-        private void FetchFiles_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             LoadingBar.Value = e.ProgressPercentage;
-
-            if(e.UserState != null)
-            {
-                filesList.Add(e.UserState as FileObj);
-            }
         }
 
         private void FetchFiles_DoWork(object sender, DoWorkEventArgs e)
@@ -113,16 +107,13 @@ namespace BatchRename
                     }
                 }
 
-                FileObj fileToAdd = null;
-                if (!isDuplicated) fileToAdd = new FileObj() { Name = childName, Path = path };
-
-                fetchFilesWorker.ReportProgress((child * 100/children.Length), fileToAdd);
+                if (!isDuplicated)
+                Dispatcher.Invoke(() => {
+                    filesList.Add(new FileObj() { Name = childName, Path = path });
+                });
+                
+                fetchFilesWorker.ReportProgress((child * 100/children.Length));
             }
-        }
-
-        private void ExcludeFiles_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            LoadingBar.Value = e.ProgressPercentage;
         }
 
         private void ExcludeFiles_DoWork(object sender, DoWorkEventArgs e)
