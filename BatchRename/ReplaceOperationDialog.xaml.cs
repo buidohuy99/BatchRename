@@ -23,7 +23,7 @@ namespace BatchRename
         public event OptArgsDelegate OptArgsChange = null;
         ReplaceArgs args;
 
-        public ReplaceStringDialog(OptArgs Arguments)
+        public ReplaceStringDialog(StringArgs Arguments)
         {
             InitializeComponent();
             args = Arguments as ReplaceArgs;
