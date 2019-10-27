@@ -84,5 +84,10 @@ namespace BatchRename
         {
 
         }
+
+        private void OperationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
