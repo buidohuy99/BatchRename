@@ -6,43 +6,33 @@ using System.Threading.Tasks;
 
 namespace BatchRename
 {
-    public class NewCaseArgs : StringArgs
+    public class CaseArg : StringArgs
     {
-        public char Mode { get; set; }
+        public string Case { get; set; }
     }
 
-    public class NewCaseOperation : StringOperation
+    public class NewCaseStringOperation : StringOperation
     {
-        public override string Name => "New Case";
+        public override string Name => "Change Case";
 
-        public override string Description {
-            get {
-                var arg = Args as NewCaseArgs;
-
-                string detail=null;
-                switch(arg.Mode)
-                {
-                    case 'a':
-                        detail = "lower"; break;
-                    case 'b':
-                        detail = "upper"; break;
-                    case 'c':
-                        detail = "upper first letter"; break;
-                }
-
-                return ($"Change the case format of the string to {detail}");
+        public override string Description
+        {
+            get
+            {
+                var arg = Args as CaseArg;
+                return ($"Change the case format of the string to {arg.Case}");
             }
         }
 
-        public NewCaseOperation()
+        public NewCaseStringOperation()
         {
-            Args = new NewCaseArgs()
+            Args = new CaseArg()
             {
-                Mode = 'a',
+                Case = "lower",
             };
         }
 
-        static string UpperFirstLetter(string input)
+        static string ToUpperFirstLetter(string input)
         {
             StringBuilder result = new StringBuilder(input);
 
@@ -63,35 +53,37 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            throw new NotImplementedException();
+            var screen = new ChangeCaseDialog(Args);
+            screen.OptArgsChange += ChangeCaseArg;
+            if (screen.ShowDialog() == true)
+            {
+            }
         }
 
-        public override string OperateString(string origin)
+        public override string OperateString(string input)
         {
-            string result = null;
-            var arg = Args as NewCaseArgs;
+            string result = input;
+            var arg = Args as CaseArg;
 
-            switch (arg.Mode)
+            if (arg.Case == "lower")
             {
-                case 'a':
-
-                    result = origin.ToLower();
-                    break;
-
-                case 'b':
-
-                    result = origin.ToUpper();
-                    break;
-
-                case 'c':
-
-                    result = UpperFirstLetter(origin);
-                    break;
-
+                result = input.ToLower();
+            }
+            if (arg.Case == "UPPER")
+            {
+                result = input.ToUpper();
+            }
+            if (arg.Case == "Upper First Letter")
+            {
+                result = ToUpperFirstLetter(input);
             }
             return result;
         }
 
+        void ChangeCaseArg(string ChosenCase)
+        {
+            (Args as CaseArg).Case = ChosenCase;
+        }
 
     }
 }
