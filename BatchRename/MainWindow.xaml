@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" ResizeMode="CanMinimize">
     <Window.Resources>
-        
+
         <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="White"/>
             <Setter Property="Template">
@@ -232,13 +232,13 @@
                             </Button>
                         </StackPanel>
                     </Border>
-                    <ListView BorderThickness="0">
+                    <ListView Name="RenameFilesList" BorderThickness="0">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Filename" Width="120"/>
-                                <GridViewColumn Header="New Filename" Width="150" />
-                                <GridViewColumn Header="Path" Width="150" />
-                                <GridViewColumn Header="Error" Width="150"/>
+                                <GridViewColumn Header="Filename" Width="120" DisplayMemberBinding= "{Binding Name}" />
+                                <GridViewColumn Header="New Filename" Width="150" DisplayMemberBinding= "{Binding NewName}"/>
+                                <GridViewColumn Header="Path" Width="150" DisplayMemberBinding= "{Binding Path}"/>
+                                <GridViewColumn Header="Error" Width="150" DisplayMemberBinding= "{Binding Error}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -270,7 +270,7 @@
                             </Button>
                         </StackPanel>
                     </Border>
-                    <ListView BorderThickness="0">
+                    <ListView Name="RenameFoldersList" BorderThickness="0">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Folder Name" Width="120"/>
