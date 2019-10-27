@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace BatchRename
 {
-    // CLASS REPLACE STRING
-    public class ReplaceArgs : OptArgs
+ 
+    public class ReplaceArgs : StringArgs
     {
         public string From { get; set; }
         public string To { get; set; }
     }
 
-    public class ReplaceStringOperation : StringOperations
+    public class ReplaceOperation : StringOperation
     {
         public override string Name => "Replace";
 
@@ -21,42 +21,42 @@ namespace BatchRename
         {
             get
             {
-                string from = (Arguments as ReplaceArgs).From;
-                string to = (Arguments as ReplaceArgs).To;
+                string from = (Args as ReplaceArgs).From;
+                string to = (Args as ReplaceArgs).To;
                 return ($"Replace substring {from} with {to}");
             }
         }
 
-        public ReplaceStringOperation()
+        public ReplaceOperation()
         {
-            Arguments = new ReplaceArgs()
+            Args = new ReplaceArgs()
             {
-                From = "From",
-                To = "To"
+                From = "<edit>",
+                To = "<edit>"
             };
         }
 
-        public override string Operate(string input)
+        public override string OperateString(string input)
         {
             string result;
-            var args = Arguments as ReplaceArgs;
-            result = input.Replace(args.From, args.To);
+            result = input.Replace((Args as ReplaceArgs).From, (Args as ReplaceArgs).To);
             return result;
         }
 
         public override void OpenDialog()
         {
-            var screen = new ReplaceStringDialog(Arguments);
+            var screen = new ReplaceStringDialog(Args);
             screen.OptArgsChange += ChangeReplaceArgs;
             if (screen.ShowDialog() == true)
             {
+
             }
         }
 
         void ChangeReplaceArgs(string from, string to)
         {
-            (Arguments as ReplaceArgs).From = from;
-            (Arguments as ReplaceArgs).To = to;
+            (Args as ReplaceArgs).From = from;
+            (Args as ReplaceArgs).To = to;
         }
     }
 }

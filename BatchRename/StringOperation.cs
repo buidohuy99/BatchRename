@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace BatchRename
 {
-    public abstract class OptArgs
+    public abstract class StringArgs
     {
+        
     }
 
-    public abstract class StringOperations : INotifyPropertyChanged
+    public abstract class StringOperation : INotifyPropertyChanged
     {
-        public OptArgs Arguments { get; set; }
+
+        public StringArgs Args { get; set; }
 
         public abstract string Name { get;}
 
@@ -21,7 +23,7 @@ namespace BatchRename
         
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public abstract string Operate(string input);
+        public abstract string OperateString(string origin);
 
         public abstract void OpenDialog();
 
