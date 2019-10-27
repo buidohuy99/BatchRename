@@ -56,12 +56,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FullnameNormalizeOperation.cs" />
+    <Compile Include="MoveOperation .cs" />
     <Compile Include="NewCaseOperation.cs" />
     <Compile Include="ReplaceOperation.cs" />
     <Compile Include="ReplaceOperationDialog.xaml.cs">
       <DependentUpon>ReplaceOperationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="StringOperation.cs" />
+    <Compile Include="UniqueNameOperation.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

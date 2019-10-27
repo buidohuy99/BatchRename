@@ -45,12 +45,12 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            var screen = new ReplaceStringDialog(Args);
-            screen.OptArgsChange += ChangeReplaceArgs;
-            if (screen.ShowDialog() == true)
-            {
+            //var screen = new ReplaceStringDialog(Args);
+            //screen.OptArgsChange += ChangeReplaceArgs;
+            //if (screen.ShowDialog() == true)
+            //{
 
-            }
+            //}
         }
 
         void ChangeReplaceArgs(string from, string to)

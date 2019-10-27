@@ -6,15 +6,21 @@ using System.Threading.Tasks;
 
 namespace BatchRename
 {
-    public class FullnameNormalizeArgs: StringArgs
+    public class FullnameNormalizeArgs : StringArgs
     {
 
     }
-    public class FullnameNormalizeOperation: StringOperation
+    public class FullnameNormalizeOperation : StringOperation
     {
         public override string Name => "Fullname normalize";
 
-        public override string Description => "Make a standard fullname";
+        public override string Description
+        {
+            get
+            {
+                return "Make a standard fullname";
+            }
+        }
 
         public override string OperateString(string origin)
         {
@@ -29,10 +35,10 @@ namespace BatchRename
                 result.Remove(i, 1);
 
             List<int> indexsDeleted = new List<int>();
-            for(int i=0; i< result.Length;)
+            for (int i = 0; i < result.Length;)
             {
                 int countSpace = 0;
-                if(result[i] ==' ')
+                if (result[i] == ' ')
                 {
                     int j = 0;
                     while (result[i + j] == ' ') j++;
@@ -46,7 +52,7 @@ namespace BatchRename
                 }
                 else
                     i++;
-               
+
             }
 
             foreach (var index in indexsDeleted)
