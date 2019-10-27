@@ -6,27 +6,25 @@ using System.Threading.Tasks;
 
 namespace BatchRename
 {
-    public class CaseArg : StringArgs
+    public class CaseArg : OptArgs
     {
         public string Case { get; set; }
     }
 
-    public class NewCaseStringOperation : StringOperation
+    public class ChangeCaseStringOperation : StringOperations
     {
         public override string Name => "Change Case";
 
-        public override string Description
-        {
-            get
-            {
-                var arg = Args as CaseArg;
+        public override string Description {
+            get {
+                var arg = Arguments as CaseArg;
                 return ($"Change the case format of the string to {arg.Case}");
             }
         }
 
-        public NewCaseStringOperation()
+        public ChangeCaseStringOperation()
         {
-            Args = new CaseArg()
+            Arguments = new CaseArg()
             {
                 Case = "lower",
             };
@@ -53,17 +51,17 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            var screen = new ChangeCaseDialog(Args);
+            var screen = new ChangeCaseDialog(Arguments);
             screen.OptArgsChange += ChangeCaseArg;
             if (screen.ShowDialog() == true)
             {
             }
         }
 
-        public override string OperateString(string input)
+        public override string Operate(string input)
         {
             string result = input;
-            var arg = Args as CaseArg;
+            var arg = Arguments as CaseArg;
 
             if (arg.Case == "lower")
             {
@@ -82,7 +80,7 @@ namespace BatchRename
 
         void ChangeCaseArg(string ChosenCase)
         {
-            (Args as CaseArg).Case = ChosenCase;
+            (Arguments as CaseArg).Case = ChosenCase;
         }
 
     }
