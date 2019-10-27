@@ -66,6 +66,7 @@
       <DependentUpon>ReplaceOperationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="StringOperation.cs" />
+    <Compile Include="UtilsClass\FileAndFolder.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -163,5 +164,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

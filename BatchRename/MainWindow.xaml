@@ -20,6 +20,10 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Cursor" Value="None"/>
+                </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background">
                         <Setter.Value>
@@ -62,6 +66,21 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Foreground" Value="Black" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="#dbdbdb" />
+                    <Setter Property="BorderBrush" Value="#9c9c9c" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="true">
+                    <Setter Property="Background" Value="#9c9c9c" />
+                    <Setter Property="BorderBrush" Value="#dbdbdb" />
+                    <Setter Property="Foreground" Value="White" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -166,9 +185,9 @@
                                            RenderOptions.BitmapScalingMode="HighQuality"/>
                         </StackPanel>
                     </Button>
-                    
+
                     <TextBlock Text="Preset" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,0,10,0"/>
-                    
+
                     <ComboBox Name = "PresetsList"  Height="20" MinWidth="100">
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>
@@ -176,10 +195,10 @@
                             </ItemContainerTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                
+
                 </StackPanel>
             </Border>
-            
+
             <ListView Name = "OperationsList" BorderThickness="0">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -203,9 +222,10 @@
                     </ItemContainerTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            
+
         </DockPanel>
-        <TabControl BorderBrush="LightGray" BorderThickness="1,1,0,0" >
+        <ProgressBar Name="LoadingBar" DockPanel.Dock="Top" Height="10" Margin="20,5,20,5" Foreground="#bdd2ff"/>
+        <TabControl Name="RenameTabControl" BorderBrush="LightGray" BorderThickness="1,1,0,0" >
             <TabItem Style="{DynamicResource DefaultTab}" FocusVisualStyle="{x:Null}">
                 <TabItem.Header>
                     <TextBlock Text="Rename Files"/>
@@ -232,13 +252,14 @@
                             </Button>
                         </StackPanel>
                     </Border>
-                    <ListView Name="RenameFilesList" BorderThickness="0">
+                    <ListView Name="RenameFilesList" BorderThickness="0"
+                              ItemContainerStyle="{StaticResource ListViewItemStyle}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Filename" Width="120" DisplayMemberBinding= "{Binding Name}" />
-                                <GridViewColumn Header="New Filename" Width="150" DisplayMemberBinding= "{Binding NewName}"/>
-                                <GridViewColumn Header="Path" Width="150" DisplayMemberBinding= "{Binding Path}"/>
-                                <GridViewColumn Header="Error" Width="150" DisplayMemberBinding= "{Binding Error}"/>
+                                <GridViewColumn Header="Filename" Width="120" DisplayMemberBinding= "{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+                                <GridViewColumn Header="New Filename" Width="150" DisplayMemberBinding= "{Binding NewName, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="Path" Width="150" DisplayMemberBinding= "{Binding Path, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="Error" Width="150" DisplayMemberBinding= "{Binding Error, UpdateSourceTrigger=PropertyChanged}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -270,13 +291,13 @@
                             </Button>
                         </StackPanel>
                     </Border>
-                    <ListView Name="RenameFoldersList" BorderThickness="0">
+                    <ListView Name="RenameFoldersList" BorderThickness="0" ItemContainerStyle="{StaticResource ListViewItemStyle}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Folder Name" Width="120"/>
-                                <GridViewColumn Header="New Folder Name" Width="150" />
-                                <GridViewColumn Header="Path" Width="150" />
-                                <GridViewColumn Header="Error" Width="150"/>
+                                <GridViewColumn Header="Folder Name" Width="120" DisplayMemberBinding= "{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="New Folder Name" Width="150" DisplayMemberBinding= "{Binding NewName, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="Path" Width="150" DisplayMemberBinding= "{Binding Path, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="Error" Width="150" DisplayMemberBinding= "{Binding Error, UpdateSourceTrigger=PropertyChanged}"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
