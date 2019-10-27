@@ -26,11 +26,11 @@ namespace BatchRename
         {
             Arguments = new CaseArg()
             {
-                Case = "Lower",
+                Case = "lower",
             };
         }
 
-        static string UpperFirstLetter(string input)
+        static string ToUpperFirstLetter(string input)
         {
             StringBuilder result = new StringBuilder(input);
 
@@ -51,7 +51,11 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            throw new NotImplementedException();
+            var screen = new ChangeCaseDialog(Arguments);
+            screen.OptArgsChange += ChangeCaseArg;
+            if (screen.ShowDialog() == true)
+            {
+            }
         }
 
         public override string Operate(string input)
@@ -59,21 +63,25 @@ namespace BatchRename
             string result = input;
             var arg = Arguments as CaseArg;
 
-            if (arg.Case == "Lower")
+            if (arg.Case == "lower")
             {
                 result = input.ToLower();
             }
-            if (arg.Case == "Upper")
+            if (arg.Case == "UPPER")
             {
                 result = input.ToUpper();
             }
             if (arg.Case == "Upper First Letter")
             {
-                result = UpperFirstLetter(input);
+                result = ToUpperFirstLetter(input);
             }
             return result;
         }
 
+        void ChangeCaseArg(string ChosenCase)
+        {
+            (Arguments as CaseArg).Case = ChosenCase;
+        }
 
     }
 }

@@ -5,23 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="ReplaceStringDialog" Height="200" Width="330.4">
+        Title="Replace String configuration" Height="200" Width="330">
     <Canvas>
-        <TextBlock Text="From" Canvas.Left="46" Canvas.Top="35" RenderTransformOrigin="0.467,-1.316"/>
+        <TextBlock Text="From" Canvas.Left="33" Canvas.Top="32"/>
 
-        <TextBox Name ="FromTextBox" Width="189" Canvas.Left="88" Canvas.Top="33"></TextBox>
+        <TextBox Name ="FromTextBox" Width="189" Canvas.Left="75" Canvas.Top="30"></TextBox>
 
-        <TextBlock Text="To" Canvas.Left="46" Canvas.Top="68" RenderTransformOrigin="0.79,-1.429">
+        <TextBlock Text="To" Canvas.Left="33" Canvas.Top="65" RenderTransformOrigin="0.79,-1.429">
 
         </TextBlock>
 
-        <TextBox Name ="ToTextBox" Canvas.Left="88" Canvas.Top="68" Width="189"></TextBox>
+        <TextBox Name ="ToTextBox" Canvas.Left="75" Canvas.Top="65" Width="189"></TextBox>
 
-        <Button Name="SaveButton" Click="SaveButton_Click" RenderTransformOrigin="2.181,4.615" Canvas.Left="89" Canvas.Top="110" Width="75" Height="28" 
+        <Button Name="SaveButton" Click="SaveButton_Click" Canvas.Left="76" Canvas.Top="107" Width="75" Height="28" 
             >Save
         </Button>
 
-        <Button Name="CancelButton" RenderTransformOrigin="2.181,4.615" Canvas.Left="203" Canvas.Top="110" Width="75" Height="28" 
+        <Button Name="CancelButton" Canvas.Left="191" Canvas.Top="107" Width="75" Height="28" 
             >Cancel
         </Button>
     </Canvas>

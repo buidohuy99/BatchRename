@@ -19,9 +19,54 @@ namespace BatchRename
     /// </summary>
     public partial class ChangeCaseDialog : Window
     {
-        public ChangeCaseDialog()
+        public delegate void OptArgsDelegate(string ChosenCase);
+        public event OptArgsDelegate OptArgsChange = null;
+        CaseArg args;
+
+        public ChangeCaseDialog(OptArgs Arguments)
         {
             InitializeComponent();
+            args = Arguments as CaseArg;
+
+            if (args.Case == "lower")
+            {
+                CaseRadioButton1.IsChecked = true;
+            }
+
+            if (args.Case == "UPPER")
+            {
+                CaseRadioButton2.IsChecked = true;
+            }
+
+            if (args.Case == "Upper First Letter")
+            {
+                CaseRadioButton3.IsChecked = true;
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string result = "";
+            if (CaseRadioButton1.IsChecked == true)
+            {
+                result = (string)CaseRadioButton1.Content;
+            }
+
+            if (CaseRadioButton2.IsChecked == true)
+            {
+                result = (string)CaseRadioButton2.Content;
+            }
+
+            if (CaseRadioButton3.IsChecked == true)
+            {
+                result = (string)CaseRadioButton3.Content;
+            }
+            if (OptArgsChange != null)
+            {
+                OptArgsChange.Invoke(result);
+            }
+            DialogResult = true;
+            Close();
         }
     }
 }
