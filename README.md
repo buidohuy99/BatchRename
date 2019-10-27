@@ -1,1 +1,3 @@
-PROJECT: BATCH RENAME
+# BATCHRENAME APPLICATION
+## WorkFlowDiagram
+![Diagram](WorkFlowDiagram.jpg)

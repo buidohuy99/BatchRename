@@ -23,7 +23,7 @@ namespace BatchRename
             {
                 string from = (Arguments as ReplaceArgs).From;
                 string to = (Arguments as ReplaceArgs).To;
-                return ("Replace substring {from} with {to}");
+                return ($"Replace substring {from} with {to}");
             }
         }
 
