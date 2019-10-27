@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0FDBE7EB-028D-4E17-9213-6B198C0A1183}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>BatchRename</RootNamespace>
     <AssemblyName>BatchRename</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -34,9 +34,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,19 +59,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ChangeCase.cs" />
-    <Compile Include="ChangeCaseDialog.xaml.cs">
-      <DependentUpon>ChangeCaseDialog.xaml</DependentUpon>
+    <Compile Include="FullnameNormalizeOperation.cs" />
+    <Compile Include="NewCaseOperation.cs" />
+    <Compile Include="ReplaceOperation.cs" />
+    <Compile Include="ReplaceOperationDialog.xaml.cs">
+      <DependentUpon>ReplaceOperationDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReplaceString.cs" />
-    <Compile Include="ReplaceStringDialog.xaml.cs">
-      <DependentUpon>ReplaceStringDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="StringOperations.cs" />
-    <Page Include="ChangeCaseDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="StringOperation.cs" />
+    <Compile Include="UtilsClass\FileAndFolder.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,7 +79,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ReplaceStringDialog.xaml">
+    <Page Include="ReplaceOperationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,5 +161,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
