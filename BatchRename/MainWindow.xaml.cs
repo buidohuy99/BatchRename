@@ -148,7 +148,15 @@ namespace BatchRename
 
         private void AddMethodButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (sender is FrameworkElement addButton)
+            {
+                addButton.ContextMenu.PlacementTarget = addButton;
+                addButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                addButton.ContextMenu.Width = addButton.ActualWidth;
+                addButton.ContextMenu.MinHeight = 30;
+                addButton.ContextMenu.Margin = new Thickness(0,5,0,0);
+                addButton.ContextMenu.IsOpen = true;
+            }
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)

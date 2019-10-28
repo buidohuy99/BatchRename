@@ -123,13 +123,18 @@
             <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" DockPanel.Dock="Top">
                 <StackPanel Orientation="Horizontal" Height="30">
 
-                    <Button Name="AddMethodButton" Click="AddMethodButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Button Click="AddMethodButton_Click" Name="AddMethodButton" Style="{StaticResource DefaultButton}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Images/appbar.method.add.png" 
                                         Width="30" Height="30" Margin="0,0,5,0"
                                         RenderOptions.BitmapScalingMode="HighQuality"/>
                             <TextBlock Text="Add Method" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </StackPanel>
+                        <Button.ContextMenu>
+                            <ContextMenu HorizontalAlignment="Left">
+                                
+                            </ContextMenu>
+                        </Button.ContextMenu>
                     </Button>
 
                     <Button Name="UpButton" Focusable="False" Style="{DynamicResource DefaultButton}">
