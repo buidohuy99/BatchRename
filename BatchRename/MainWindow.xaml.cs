@@ -155,6 +155,7 @@ namespace BatchRename
                 addButton.ContextMenu.Width = addButton.ActualWidth;
                 addButton.ContextMenu.MinHeight = 30;
                 addButton.ContextMenu.Margin = new Thickness(0,5,0,0);
+                addButton.ContextMenu.ItemsSource = null;
                 addButton.ContextMenu.IsOpen = true;
             }
         }

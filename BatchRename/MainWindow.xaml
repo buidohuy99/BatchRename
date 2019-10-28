@@ -130,11 +130,18 @@
                                         RenderOptions.BitmapScalingMode="HighQuality"/>
                             <TextBlock Text="Add Method" VerticalAlignment="Center" Margin="0,0,10,0"/>
                         </StackPanel>
+                        
                         <Button.ContextMenu>
-                            <ContextMenu HorizontalAlignment="Left">
-                                
+                            <ContextMenu HorizontalAlignment="Center">
+                                <ContextMenu.ItemContainerStyle>
+                                    <Style TargetType="{x:Type MenuItem}">
+                                       <Setter Property="Command"  
+                                       Value="{Binding OpenDialog}" />
+                                    </Style>
+                                </ContextMenu.ItemContainerStyle>
                             </ContextMenu>
                         </Button.ContextMenu>
+                        
                     </Button>
 
                     <Button Name="UpButton" Focusable="False" Style="{DynamicResource DefaultButton}">
