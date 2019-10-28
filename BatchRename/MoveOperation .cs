@@ -10,6 +10,7 @@ namespace BatchRename
     public class MoveArgs : StringArgs
     {
         public int Mode { get; set; }
+        public int Number { get; set; }
     }
     public class MoveOperation : StringOperation
     {
@@ -20,13 +21,14 @@ namespace BatchRename
             get
             {
                 string result = null;
-                switch ((Args as MoveArgs).Mode)
+                var arg = Args as MoveArgs;
+                switch (arg.Mode)
                 {
                     case 1:
-                        result = "Move ISBN characters to after the name";
+                        result = $"Move {arg.Number} characters to front of the string";
                         break;
                     case 2:
-                        result = "Move ISBN chacracters to after the name";
+                        result = $"Move {arg.Number} chacracters to back of the string";
                         break;
                 }
                 return result;
@@ -49,11 +51,26 @@ namespace BatchRename
             switch((Args as MoveArgs).Mode)
             {
                 case 1:
-                    result = preISBN(origin);
-                    break;
+                    try
+                    {
+                        result = BringToFront(origin, (Args as MoveArgs).Number);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception(e.Message);
+                    }
+                    
                 case 2:
-                    result = postISBN(origin);
-                    break;
+                    try
+                    {
+                        result = BringToBack(origin, (Args as MoveArgs).Number);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception(e.Message);
+                    }
             }
 
             return result;
@@ -64,10 +81,15 @@ namespace BatchRename
         /// </summary>
         /// <param name="origin"></param>
         /// <returns></returns>
-        private static string preISBN(string origin)
+        private static string BringToFront(string origin, int num)
         {
-            string ISBN = origin.Substring(origin.Length - 13, 13);
-            string result = ISBN + origin.Substring(0, origin.Length - 13);
+            if (num > origin.Length)
+            {
+                throw new Exception("Substring wanted to move is longer than the string itself");
+            }
+
+            string substring = origin.Substring(origin.Length - num, num);
+            string result = substring + origin.Substring(0, origin.Length - num);
             return result;
         }
 
@@ -76,10 +98,15 @@ namespace BatchRename
         /// </summary>
         /// <param name="origin"></param>
         /// <returns></returns>
-        private static string postISBN(string origin)
+        private static string BringToBack(string origin, int num)
         {
-            string ISBN = origin.Substring(0, 13);
-            string result = origin.Substring(14) + ISBN;
+            if (num > origin.Length)
+            {
+                throw new Exception("Substring wanted to move is longer than the string itself");
+            }
+
+            string substring = origin.Substring(0, num);
+            string result = origin.Substring(num + 1) + substring;
             return result;
         }
 
