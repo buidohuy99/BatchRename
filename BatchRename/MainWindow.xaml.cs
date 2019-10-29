@@ -21,7 +21,8 @@ namespace BatchRename
     {
         private BindingList<FileObj> filesList;
         private BindingList<FolderObj> foldersList;
-        private BindingList<StringOperation> addMethodPrototypes;
+        private List<StringOperationPrototype> addMethodPrototypes;
+        public BindingList<StringOperation> operationsList;
 
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
@@ -31,15 +32,20 @@ namespace BatchRename
             InitializeComponent();
             filesList = new BindingList<FileObj>();
             foldersList = new BindingList<FolderObj>();
-            addMethodPrototypes = new BindingList<StringOperation>();
+            operationsList = new BindingList<StringOperation>();
 
             //Populate prototypes
-            addMethodPrototypes.Add(new ReplaceOperation());
+            addMethodPrototypes = new List<StringOperationPrototype>
+            {
+                new StringOperationPrototype(new ReplaceOperation(), this),
+                new StringOperationPrototype(new NewCaseStringOperation(), this)
+            };
 
             //Bind
             RenameFilesList.ItemsSource = filesList;
             RenameFoldersList.ItemsSource = foldersList;
             AddMethodButton.ContextMenu.ItemsSource = addMethodPrototypes;
+            OperationsList.ItemsSource = operationsList;
 
             //Create fetch files worker to invoke on click
             fetchFilesWorker = new BackgroundWorker

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BatchRename
 {
@@ -28,7 +25,7 @@ namespace BatchRename
         {
             Args = new CaseArg()
             {
-                Case = "lower",
+                Case = "Lower",
             };
         }
 
@@ -57,6 +54,7 @@ namespace BatchRename
             screen.OptArgsChange += ChangeCaseArg;
             if (screen.ShowDialog() == true)
             {
+                Notify("Description");
             }
         }
 
@@ -65,11 +63,11 @@ namespace BatchRename
             string result = input;
             var arg = Args as CaseArg;
 
-            if (arg.Case == "lower")
+            if (arg.Case == "Lower")
             {
                 result = input.ToLower();
             }
-            if (arg.Case == "UPPER")
+            if (arg.Case == "Upper")
             {
                 result = input.ToUpper();
             }
@@ -85,5 +83,16 @@ namespace BatchRename
             (Args as CaseArg).Case = ChosenCase;
         }
 
+        public override StringOperation Clone()
+        {
+            var oldArgs = Args as CaseArg;
+            return new NewCaseStringOperation()
+            {
+                Args = new CaseArg()
+                {
+                    Case = oldArgs.Case
+                }
+            };
+        }
     }
 }

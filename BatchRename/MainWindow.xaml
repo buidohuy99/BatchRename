@@ -136,12 +136,12 @@
                                 <ContextMenu.ItemContainerStyle>
                                     <Style TargetType="{x:Type MenuItem}">
                                        <Setter Property="Command"  
-                                       Value="{Binding OpenDialogCommand}" />
+                                       Value="{Binding CreateNewOperation}" />
                                     </Style>
                                 </ContextMenu.ItemContainerStyle>
                                 <ContextMenu.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Name, Mode=OneWay}"/>
                                     </DataTemplate>
                                 </ContextMenu.ItemTemplate>
                             </ContextMenu>
@@ -225,7 +225,7 @@
                 <ListView.ItemTemplate>
                     <ItemContainerTemplate>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="30">
-                            <TextBlock VerticalAlignment="Center" Margin="10,0,5,0"/>
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"/>
 
                             <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}">
                                 <StackPanel Orientation="Horizontal">

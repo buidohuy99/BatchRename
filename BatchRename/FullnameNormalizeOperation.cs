@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BatchRename
 {
@@ -83,5 +80,9 @@ namespace BatchRename
             throw new NotImplementedException();
         }
 
+        public override StringOperation Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

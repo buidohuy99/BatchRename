@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BatchRename
 {
@@ -45,18 +41,30 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            //var screen = new ReplaceStringDialog(Args);
-            //screen.OptArgsChange += ChangeReplaceArgs;
-            //if (screen.ShowDialog() == true)
-            //{
-
-            //}
+            var screen = new ReplaceStringDialog(Args);
+            screen.OptArgsChange += ChangeReplaceArgs;
+            if (screen.ShowDialog() == true)
+            {
+                Notify("Description");
+            }
         }
 
         void ChangeReplaceArgs(string from, string to)
         {
             (Args as ReplaceArgs).From = from;
             (Args as ReplaceArgs).To = to;
+        }
+
+        public override StringOperation Clone()
+        {
+            var oldArgs = Args as ReplaceArgs;
+            return new ReplaceOperation() {
+                Args = new ReplaceArgs()
+                {
+                    From = oldArgs.From,
+                    To = oldArgs.To
+                }
+            };
         }
     }
 }

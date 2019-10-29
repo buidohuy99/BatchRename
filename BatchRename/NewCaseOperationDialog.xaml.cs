@@ -28,12 +28,12 @@ namespace BatchRename
             InitializeComponent();
             args = Arguments as CaseArg;
 
-            if (args.Case == "lower")
+            if (args.Case == "Lower")
             {
                 CaseRadioButton1.IsChecked = true;
             }
 
-            if (args.Case == "UPPER")
+            if (args.Case == "Upper")
             {
                 CaseRadioButton2.IsChecked = true;
             }
