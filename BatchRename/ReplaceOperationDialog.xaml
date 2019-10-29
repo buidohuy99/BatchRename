@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="Replace String configuration" Height="200" Width="330">
+        Title="Configuration" Height="200" Width="330">
     <Canvas>
         <TextBlock Text="From" Canvas.Left="33" Canvas.Top="32"/>
 
@@ -21,7 +21,7 @@
             >Save
         </Button>
 
-        <Button Name="CancelButton" Canvas.Left="191" Canvas.Top="107" Width="75" Height="28" 
+        <Button Name="CancelButton" Canvas.Left="191" Canvas.Top="107" Width="75" Height="28" IsCancel="True"
             >Cancel
         </Button>
     </Canvas>

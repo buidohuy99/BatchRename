@@ -39,7 +39,8 @@ namespace BatchRename
             {
                 new StringOperationPrototype(new ReplaceOperation(), this),
                 new StringOperationPrototype(new NewCaseStringOperation(), this),
-                new StringOperationPrototype(new MoveOperation(), this)
+                new StringOperationPrototype(new MoveOperation(), this),
+                new StringOperationPrototype(new FullnameNormalizeOperation(), this)
             };
 
             //Bind
@@ -232,8 +233,16 @@ namespace BatchRename
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             var item = OperationsList.SelectedItem as StringOperation;
-
-            item.OpenDialog();
+            try
+            {
+                item.OpenDialog();
+            }
+            catch
+            {
+                var screen = new NoEditAvailableDialog();
+                screen.ShowDialog();
+            }
+            
         }
     }
 }

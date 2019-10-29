@@ -27,7 +27,15 @@ namespace BatchRename
             CreateNewOperation = new DelegateCommand(temp => {
                 StringOperation tempOperation = prototype.Clone();
                 AddContext.operationsList.Add(tempOperation);
-                tempOperation.OpenDialog();
+                try
+                {
+                    tempOperation.OpenDialog();
+                }
+                catch
+                {
+                    //do nothing
+                }
+                
             }
             , null);
         }

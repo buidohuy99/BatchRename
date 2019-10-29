@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="Change Case configuration" Height="220" Width="300" ResizeMode="NoResize">
+        Title="Configuration" Height="220" Width="300" ResizeMode="NoResize">
     <Canvas>
         <GroupBox x:Name="CaseRadioButtons" Canvas.Left="43" Canvas.Top="23" BorderThickness="0">
             <StackPanel>
@@ -19,7 +19,7 @@
             Save
         </Button>
 
-        <Button Name="CancelButton" Canvas.Left="166" Canvas.Top="137" Width="75" Height="28">
+        <Button Name="CancelButton" Canvas.Left="166" Canvas.Top="137" Width="75" Height="28" IsCancel="True">
             Cancel
         </Button>
     </Canvas>
