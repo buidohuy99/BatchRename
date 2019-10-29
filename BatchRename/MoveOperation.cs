@@ -112,6 +112,7 @@ namespace BatchRename
             screen.StringArgsChange += ChangeMoveArgs;
             if (screen.ShowDialog() == true)
             {
+                Notify("Description");
             }
         }
 

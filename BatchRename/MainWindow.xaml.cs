@@ -39,7 +39,9 @@ namespace BatchRename
             {
                 new StringOperationPrototype(new ReplaceOperation(), this),
                 new StringOperationPrototype(new NewCaseStringOperation(), this),
-                new StringOperationPrototype(new MoveOperation(), this)
+                new StringOperationPrototype(new MoveOperation(), this),
+                new StringOperationPrototype(new FullnameNormalizeOperation(), this),
+                new StringOperationPrototype(new UniqueNameOperation(), this)
             };
 
             //Bind

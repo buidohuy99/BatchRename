@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="Replace String configuration" Height="200" Width="330">
+        Icon="Images/app.configuration.png"
+        Title="Replace String configuration" Height="200" Width="330" ResizeMode="NoResize">
     <Canvas>
         <TextBlock Text="From" Canvas.Left="33" Canvas.Top="32"/>
 

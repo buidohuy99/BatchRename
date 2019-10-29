@@ -77,12 +77,14 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            //do nothing
         }
 
         public override StringOperation Clone()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return new FullnameNormalizeOperation();
         }
     }
 }

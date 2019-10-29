@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="Change Case configuration" Height="220" Width="300" ResizeMode="NoResize">
+        Icon="Images/app.configuration.png"
+        Title="Change Case configuration" Height="220" Width="330" ResizeMode="NoResize">
     <Canvas>
         <GroupBox x:Name="CaseRadioButtons" Canvas.Left="43" Canvas.Top="23" BorderThickness="0">
             <StackPanel>

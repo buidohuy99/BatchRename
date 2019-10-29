@@ -220,7 +220,7 @@
             <ListView Name="OperationsList" BorderThickness="0" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
 
                             <StackPanel.ContextMenu>
                                 <ContextMenu>
@@ -228,16 +228,20 @@
                                 </ContextMenu>
                             </StackPanel.ContextMenu>
 
-                            <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Name}" FontWeight="Bold"/>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"
                                        TextWrapping="Wrap" Width="180"/>
 
-                            <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="Images/appbar.delete.png" 
+                                <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Images/appbar.delete.png" 
                                         Width="30" Height="30"
                                         RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </StackPanel>
-                            </Button>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
 
                         </StackPanel>
                     </DataTemplate>
