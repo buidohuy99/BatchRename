@@ -234,8 +234,16 @@ namespace BatchRename
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             var item = OperationsList.SelectedItem as StringOperation;
-
-            item.OpenDialog();
+            try
+            {
+                item.OpenDialog();
+            }
+            catch
+            {
+                var screen = new NoEditAvailableDialog();
+                screen.ShowDialog();
+            }
+            
         }
     }
 }

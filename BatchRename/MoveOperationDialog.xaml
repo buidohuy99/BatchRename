@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
         Icon="Images/app.configuration.png"
-        Title="MoveOperationDialog" Height="220" Width="330" ResizeMode="NoResize">
+        Title="MoveOperationDialog" Height="200" Width="330" ResizeMode="NoResize">
     <Canvas>
         <TextBlock Canvas.Left="45" Canvas.Top="25" Text="Moved string length:"></TextBlock>
         <TextBox Name ="Num" Canvas.Left="179" Canvas.Top="25" Width="64" Height="18"></TextBox>
@@ -20,7 +20,7 @@
             Save
         </Button>
 
-        <Button Name="CancelButton" Canvas.Left="168" Canvas.Top="110" Width="75" Height="28">
+        <Button Name="CancelButton" Canvas.Left="168" Canvas.Top="110" Width="75" Height="28" IsCancel="True">
             Cancel
         </Button>
     </Canvas>

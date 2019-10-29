@@ -10,6 +10,7 @@ namespace BatchRename
     {
        
     }
+
     public class UniqueNameOperation: StringOperation
     {
         public override string Name => "Unique name";
@@ -31,13 +32,11 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            //throw new NotImplementedException();
-            //do nothing
+            throw new Exception();
         }
 
         public override StringOperation Clone()
         {
-            //throw new NotImplementedException();
             return new UniqueNameOperation();
         }
     }

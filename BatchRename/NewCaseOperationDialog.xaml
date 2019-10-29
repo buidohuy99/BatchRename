@@ -20,7 +20,7 @@
             Save
         </Button>
 
-        <Button Name="CancelButton" Canvas.Left="166" Canvas.Top="137" Width="75" Height="28">
+        <Button Name="CancelButton" Canvas.Left="166" Canvas.Top="137" Width="75" Height="28" IsCancel="True">
             Cancel
         </Button>
     </Canvas>
