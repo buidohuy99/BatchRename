@@ -18,7 +18,7 @@ namespace BatchRename
         {
             get
             {
-                return "Rename folders or files with unique name using GUID";
+                return "Rename with unique names using GUID";
             }
         }
 

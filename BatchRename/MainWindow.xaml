@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="CanMinimize">
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
     <Window.Resources>
 
         <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
@@ -128,7 +128,7 @@
                             <Image Source="Images/appbar.method.add.png" 
                                         Width="30" Height="30" Margin="0,0,5,0"
                                         RenderOptions.BitmapScalingMode="HighQuality"/>
-                            <TextBlock Text="Add Method" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <!--<TextBlock Text="Add Method" VerticalAlignment="Center" Margin="0,0,10,0"/>-->
                         </StackPanel>
                         
                         <Button.ContextMenu>
@@ -139,15 +139,23 @@
                                        Value="{Binding OpenDialog}" />
                                     </Style>
                                 </ContextMenu.ItemContainerStyle>
-                                <ContextMenu.ItemTemplate>
+                                <!--<ContextMenu.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Name}"/>
                                     </DataTemplate>
-                                </ContextMenu.ItemTemplate>
+                                </ContextMenu.ItemTemplate>-->
                             </ContextMenu>
                         </Button.ContextMenu>
                         
                     </Button>
+
+                    <ComboBox Name = "AddMethodComboBox"  Height="20" Width="90">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name, Mode=OneWay}"></TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
                     <Button Name="UpButton" Focusable="False" Style="{DynamicResource DefaultButton}">
                         <StackPanel Orientation="Horizontal">
@@ -224,10 +232,8 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <ItemContainerTemplate>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="30">
-                            <TextBlock VerticalAlignment="Center" Margin="10,0,5,0"/>
-
-                            <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}">
+                        <StackPanel Orientation="Horizontal"  VerticalAlignment="Center" Height="30">
+                            <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="Images/appbar.delete.png" 
                                         Width="30" Height="30"
@@ -235,6 +241,15 @@
                                 </StackPanel>
                             </Button>
 
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Edit" Click="MenuItem_Click"/>
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="10,0,5,0" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Margin="10,0,5,0"/>
+                            </StackPanel>
                         </StackPanel>
                     </ItemContainerTemplate>
                 </ListView.ItemTemplate>

@@ -28,7 +28,7 @@ namespace BatchRename
         {
             Args = new CaseArg()
             {
-                Case = "lower",
+                Case = "Upper First Letter",
             };
         }
 
@@ -57,6 +57,10 @@ namespace BatchRename
             screen.OptArgsChange += ChangeCaseArg;
             if (screen.ShowDialog() == true)
             {
+            }
+            else
+            {
+
             }
         }
 

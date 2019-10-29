@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace BatchRename
         public string To { get; set; }
     }
 
-    public class ReplaceOperation : StringOperation
+    public class ReplaceOperation : StringOperation, INotifyPropertyChanged
     {
         public override string Name => "Replace";
 
@@ -23,7 +24,7 @@ namespace BatchRename
             {
                 string from = (Args as ReplaceArgs).From;
                 string to = (Args as ReplaceArgs).To;
-                return ($"Replace substring {from} with {to}");
+                return ($"Replace substrings from \"{from}\" to \"{to}\" ");
             }
         }
 
@@ -31,8 +32,8 @@ namespace BatchRename
         {
             Args = new ReplaceArgs()
             {
-                From = "<edit>",
-                To = "<edit>"
+                From = "from",
+                To = "to"
             };
         }
 
@@ -45,12 +46,16 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            //var screen = new ReplaceStringDialog(Args);
-            //screen.OptArgsChange += ChangeReplaceArgs;
-            //if (screen.ShowDialog() == true)
-            //{
+            var screen = new ReplaceStringDialog(Args);
+            screen.OptArgsChange += ChangeReplaceArgs;
+            if (screen.ShowDialog() == true)
+            {
 
-            //}
+            }
+            else
+            {
+             
+            }
         }
 
         void ChangeReplaceArgs(string from, string to)

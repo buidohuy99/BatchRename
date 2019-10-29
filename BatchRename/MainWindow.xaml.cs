@@ -22,6 +22,9 @@ namespace BatchRename
         private BindingList<FileObj> filesList;
         private BindingList<FolderObj> foldersList;
 
+        private List<StringOperation> operations;
+        private BindingList<StringOperation> actions;
+
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
 
@@ -30,6 +33,8 @@ namespace BatchRename
             InitializeComponent();
             filesList = new BindingList<FileObj>();
             foldersList = new BindingList<FolderObj>();
+            operations = new List<StringOperation>();
+            actions = new BindingList<StringOperation>();
 
             RenameFilesList.ItemsSource = filesList;
             RenameFoldersList.ItemsSource = foldersList;
@@ -53,7 +58,15 @@ namespace BatchRename
             excludeFilesWorker.ProgressChanged += ProgressChanged;
             excludeFilesWorker.RunWorkerCompleted += RunWorkerCompleted;
 
+            //Create all methods and put into ComboBox
+            operations.Add(new ReplaceOperation());
+            operations.Add(new NewCaseStringOperation());
+            operations.Add(new FullnameNormalizeOperation());
+            operations.Add(new MoveOperation());
+            operations.Add(new UniqueNameOperation());
+            AddMethodComboBox.ItemsSource = operations;
 
+            OperationsList.ItemsSource = actions;
         }
 
         //------------------------------Background Workers---------------------------------
@@ -157,6 +170,9 @@ namespace BatchRename
                 addButton.ContextMenu.Margin = new Thickness(0,5,0,0);
                 addButton.ContextMenu.ItemsSource = null;
                 addButton.ContextMenu.IsOpen = true;
+
+                var action = AddMethodComboBox.SelectedItem as StringOperation;
+                actions.Add(action);
             }
         }
 
@@ -214,6 +230,13 @@ namespace BatchRename
         private void OperationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var item = OperationsList.SelectedItem as StringOperation;
+
+            item.OpenDialog();
         }
     }
 }

@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="Change Case configuration" Height="220" Width="330">
+        Title="Change Case configuration" Height="220" Width="300" ResizeMode="NoResize">
     <Canvas>
         <GroupBox x:Name="CaseRadioButtons" Canvas.Left="52" Canvas.Top="18" BorderThickness="0">
             <StackPanel>
                 <TextBlock Height="25">Choose the case you want to change:</TextBlock>
-                <RadioButton Name ="CaseRadioButton1" GroupName="Case" Content="Lower" IsChecked="True" Margin="0,0,0,10"/>
+                <RadioButton Name ="CaseRadioButton1" GroupName="Case" Content="lower" IsChecked="True" Margin="0,0,0,10"/>
                 <RadioButton Name ="CaseRadioButton2" GroupName="Case" Content="Upper" Margin="0,0,0,10"/>
                 <RadioButton Name ="CaseRadioButton3" GroupName="Case" Content="Upper First Letter" Margin="0,0,0,10"/>
             </StackPanel>

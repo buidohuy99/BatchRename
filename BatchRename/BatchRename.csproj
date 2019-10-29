@@ -60,7 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FullnameNormalizeOperation.cs" />
-    <Compile Include="MoveOperation .cs" />
+    <Compile Include="MoveOperation.cs" />
     <Compile Include="NewCaseOperation.cs" />
     <Compile Include="NewCaseOperationDialog.xaml.cs">
       <DependentUpon>NewCaseOperationDialog.xaml</DependentUpon>
@@ -70,6 +70,7 @@
       <DependentUpon>ReplaceOperationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="StringOperation.cs" />
+    <Compile Include="UniqueNameOperation.cs" />
     <Compile Include="UtilsClass\FileAndFolder.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
