@@ -113,7 +113,16 @@ namespace BatchRename
 
         public override void OpenDialog()
         {
-            throw new NotImplementedException();
+            var screen = new MoveOperationDialog(Args);
+            screen.StringArgsChange += ChangeMoveArgs;
+            if (screen.ShowDialog() == true)
+            {
+            }
+        }
+
+        void ChangeMoveArgs(MoveArgs ChangedArgs)
+        {
+            Args = ChangedArgs;
         }
     }
 }
