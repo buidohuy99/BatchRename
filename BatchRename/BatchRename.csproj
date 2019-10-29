@@ -60,7 +60,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FullnameNormalizeOperation.cs" />
-    <Compile Include="MoveOperation .cs" />
+    <Compile Include="MoveOperation.cs" />
     <Compile Include="NewCaseOperation.cs" />
     <Compile Include="NewCaseOperationDialog.xaml.cs">
       <DependentUpon>NewCaseOperationDialog.xaml</DependentUpon>

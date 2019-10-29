@@ -38,7 +38,7 @@ namespace BatchRename
         
     }
 
-    public abstract class StringOperation : INotifyPropertyChanged
+    public abstract class StringOperation: INotifyPropertyChanged
     {
         public StringArgs Args { get; set; }
 

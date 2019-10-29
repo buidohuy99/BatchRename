@@ -5,7 +5,7 @@ namespace BatchRename
 
     public class MoveArgs : StringArgs
     {
-        public int Mode { get; set; }
+        public string Mode { get; set; }
         public int Number { get; set; }
     }
     public class MoveOperation : StringOperation
@@ -18,15 +18,7 @@ namespace BatchRename
             {
                 string result = null;
                 var arg = Args as MoveArgs;
-                switch (arg.Mode)
-                {
-                    case 1:
-                        result = $"Move {arg.Number} characters to front of the string";
-                        break;
-                    case 2:
-                        result = $"Move {arg.Number} chacracters to back of the string";
-                        break;
-                }
+                result = $"Move {arg.Number} characters to {arg.Mode} of the string";
                 return result;
             }
         }
@@ -35,7 +27,8 @@ namespace BatchRename
         {
             Args = new MoveArgs()
             {
-                Mode = 1
+                Mode = "Front",
+                Number = 0
             };
         }
 
@@ -46,7 +39,7 @@ namespace BatchRename
 
             switch((Args as MoveArgs).Mode)
             {
-                case 1:
+                case "Front":
                     try
                     {
                         result = BringToFront(origin, (Args as MoveArgs).Number);
@@ -57,7 +50,7 @@ namespace BatchRename
                         throw new Exception(e.Message);
                     }
                     
-                case 2:
+                case "Back":
                     try
                     {
                         result = BringToBack(origin, (Args as MoveArgs).Number);
@@ -73,9 +66,10 @@ namespace BatchRename
         }
 
         /// <summary>
-        /// Move ISBN characters to before the name
+        /// move number of characters to the front of the origin string
         /// </summary>
         /// <param name="origin"></param>
+        /// <param name="num"></param>
         /// <returns></returns>
         private static string BringToFront(string origin, int num)
         {
@@ -90,9 +84,10 @@ namespace BatchRename
         }
 
         /// <summary>
-        /// Move ISBN characters to after the name
+        /// move number of characters to the back of the origin string
         /// </summary>
         /// <param name="origin"></param>
+        /// <param name="num"></param>
         /// <returns></returns>
         private static string BringToBack(string origin, int num)
         {
@@ -106,12 +101,17 @@ namespace BatchRename
             return result;
         }
 
-        public override void OpenDialog()
+        void ChangeMoveArgs(MoveArgs ChangedArgs)
+        {
+            Args = ChangedArgs;
+        }
+
+        public override StringOperation Clone()
         {
             throw new NotImplementedException();
         }
 
-        public override StringOperation Clone()
+        public override void OpenDialog()
         {
             throw new NotImplementedException();
         }
