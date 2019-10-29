@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BatchRename"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="CanMinimize">
+        Icon="Images/app.png"
+        Title="Batch Rename" Height="450" Width="800" ResizeMode="NoResize">
     <Window.Resources>
 
         <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
@@ -119,7 +120,7 @@
 
             </StackPanel>
         </Border>
-        <DockPanel DockPanel.Dock="Left" LastChildFill="True">
+        <DockPanel DockPanel.Dock="Left" LastChildFill="True" Width="240">
             <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" DockPanel.Dock="Top">
                 <StackPanel Orientation="Horizontal" Height="30">
 
@@ -135,7 +136,7 @@
                             <ContextMenu HorizontalAlignment="Center">
                                 <ContextMenu.ItemContainerStyle>
                                     <Style TargetType="{x:Type MenuItem}">
-                                       <Setter Property="Command"  
+                                        <Setter Property="Command"  
                                        Value="{Binding CreateNewOperation}" />
                                     </Style>
                                 </ContextMenu.ItemContainerStyle>
@@ -216,18 +217,21 @@
                 </StackPanel>
             </Border>
 
-            <ListView Name = "OperationsList" BorderThickness="0">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
+            <ListView Name="OperationsList" BorderThickness="0" >
                 <ListView.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="30">
-                            <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"/>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 
-                            <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}">
+                            <StackPanel.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Edit" Click="MenuItem_Click"/>
+                                </ContextMenu>
+                            </StackPanel.ContextMenu>
+
+                            <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"
+                                       TextWrapping="Wrap" Width="180"/>
+
+                            <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center">
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="Images/appbar.delete.png" 
                                         Width="30" Height="30"
@@ -236,7 +240,7 @@
                             </Button>
 
                         </StackPanel>
-                    </ItemContainerTemplate>
+                    </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 

@@ -106,11 +106,6 @@ namespace BatchRename
             Args = ChangedArgs;
         }
 
-        public override StringOperation Clone()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void OpenDialog()
         {
             var screen = new MoveOperationDialog(Args);
@@ -120,9 +115,17 @@ namespace BatchRename
             }
         }
 
-        void ChangeMoveArgs(MoveArgs ChangedArgs)
+        public override StringOperation Clone()
         {
-            Args = ChangedArgs;
+            var oldArgs = Args as MoveArgs;
+            return new MoveOperation()
+            {
+                Args = new MoveArgs()
+                {
+                    Mode = oldArgs.Mode,
+                    Number = oldArgs.Number
+                }
+            };
         }
     }
 }

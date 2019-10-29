@@ -33,5 +33,10 @@ namespace BatchRename
         {
             throw new NotImplementedException();
         }
+
+        public override StringOperation Clone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

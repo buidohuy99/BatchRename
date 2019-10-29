@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="StringOperation.cs" />
     <Compile Include="UniqueNameOperation.cs" />
+    <Compile Include="UtilsClass\DelegateCommand.cs" />
     <Compile Include="UtilsClass\FileAndFolder.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -180,6 +181,9 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\app.configuration.png" />
+    <Resource Include="Images\app.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

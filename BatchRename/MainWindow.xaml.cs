@@ -38,7 +38,8 @@ namespace BatchRename
             addMethodPrototypes = new List<StringOperationPrototype>
             {
                 new StringOperationPrototype(new ReplaceOperation(), this),
-                new StringOperationPrototype(new NewCaseStringOperation(), this)
+                new StringOperationPrototype(new NewCaseStringOperation(), this),
+                new StringOperationPrototype(new MoveOperation(), this)
             };
 
             //Bind
@@ -165,7 +166,7 @@ namespace BatchRename
             {
                 addButton.ContextMenu.PlacementTarget = addButton;
                 addButton.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
-                addButton.ContextMenu.Width = addButton.ActualWidth;
+                addButton.ContextMenu.MinWidth = addButton.ActualWidth;
                 addButton.ContextMenu.MinHeight = 30;
                 addButton.ContextMenu.Margin = new Thickness(0,5,0,0);
                 addButton.ContextMenu.IsOpen = true;
@@ -226,6 +227,13 @@ namespace BatchRename
         private void OperationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var item = OperationsList.SelectedItem as StringOperation;
+
+            item.OpenDialog();
         }
     }
 }

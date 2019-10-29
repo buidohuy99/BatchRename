@@ -12,7 +12,7 @@ namespace BatchRename
 {
     public class StringOperationPrototype
     {
-        private MainWindow addContext { get; set; }
+        private MainWindow AddContext { get; set; }
         private StringOperation prototype;
 
         public DelegateCommand CreateNewOperation { get; private set; }
@@ -23,10 +23,10 @@ namespace BatchRename
         public StringOperationPrototype(StringOperation prototypeOperation, Window contextWindow)
         {
             prototype = prototypeOperation;
-            addContext = contextWindow as MainWindow;
+            AddContext = contextWindow as MainWindow;
             CreateNewOperation = new DelegateCommand(temp => {
                 StringOperation tempOperation = prototype.Clone();
-                addContext.operationsList.Add(tempOperation);
+                AddContext.operationsList.Add(tempOperation);
                 tempOperation.OpenDialog();
             }
             , null);
