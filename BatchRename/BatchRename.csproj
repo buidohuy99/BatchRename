@@ -61,6 +61,9 @@
     </ApplicationDefinition>
     <Compile Include="FullnameNormalizeOperation.cs" />
     <Compile Include="MoveOperation.cs" />
+    <Compile Include="MoveOperationDialog.xaml.cs">
+      <DependentUpon>MoveOperationDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NewCaseOperation.cs" />
     <Compile Include="NewCaseOperationDialog.xaml.cs">
       <DependentUpon>NewCaseOperationDialog.xaml</DependentUpon>
@@ -84,6 +87,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MoveOperationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NewCaseOperationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
