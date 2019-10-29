@@ -70,6 +70,7 @@
       <DependentUpon>ReplaceOperationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="StringOperation.cs" />
+    <Compile Include="UtilsClass\DelegateCommand.cs" />
     <Compile Include="UtilsClass\FileAndFolder.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

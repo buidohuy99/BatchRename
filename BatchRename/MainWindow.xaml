@@ -136,7 +136,7 @@
                                 <ContextMenu.ItemContainerStyle>
                                     <Style TargetType="{x:Type MenuItem}">
                                        <Setter Property="Command"  
-                                       Value="{Binding OpenDialog}" />
+                                       Value="{Binding OpenDialogCommand}" />
                                     </Style>
                                 </ContextMenu.ItemContainerStyle>
                                 <ContextMenu.ItemTemplate>

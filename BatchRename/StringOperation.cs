@@ -1,9 +1,11 @@
-﻿using System;
+﻿using BatchRename.UtilsClass;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace BatchRename
 {
@@ -14,6 +16,10 @@ namespace BatchRename
 
     public abstract class StringOperation : INotifyPropertyChanged
     {
+        public StringOperation()
+        {
+            OpenDialogCommand = new DelegateCommand(temp => this.OpenDialog(),null);
+        }
 
         public StringArgs Args { get; set; }
 
@@ -27,6 +33,7 @@ namespace BatchRename
 
         public abstract void OpenDialog();
 
+        public DelegateCommand OpenDialogCommand { get; private set; }
     }
 
 
