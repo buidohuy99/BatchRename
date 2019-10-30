@@ -397,12 +397,12 @@
                             </Button>
                         </StackPanel>
                     </Border>
-                    <ListView Name="RenameFoldersList" BorderThickness="0" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                    <ListView Name="RenameFoldersList" BorderThickness="0" ItemContainerStyle="{StaticResource ListViewItemStyle}" Padding="10,2">
                         <ListView.View>
-                            <GridView>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeaderStyle}" AllowsColumnReorder="False">
                                 <GridViewColumn Header="Folder Name" Width="120" DisplayMemberBinding= "{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                                <GridViewColumn Header="New Folder Name" Width="150" DisplayMemberBinding= "{Binding NewName, UpdateSourceTrigger=PropertyChanged}"/>
-                                <GridViewColumn Header="Path" Width="150" DisplayMemberBinding= "{Binding Path, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="New Folder Name" Width="120" DisplayMemberBinding= "{Binding NewName, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="Path" Width="155" DisplayMemberBinding= "{Binding Path, UpdateSourceTrigger=PropertyChanged}"/>
                                 <GridViewColumn Header="Error" Width="150" DisplayMemberBinding= "{Binding Error, UpdateSourceTrigger=PropertyChanged}"/>
                             </GridView>
                         </ListView.View>
