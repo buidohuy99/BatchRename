@@ -10,11 +10,42 @@
     <Window.Resources>
 
         <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Cursor" Value="None"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#9c9c9c" Offset="0" />
+                                <GradientStop Color="#dbdbdb" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DefaultOperationButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="15" Background="{TemplateBinding Background}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -73,6 +104,16 @@
 
         <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
             <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border BorderThickness="1" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
                     <Setter Property="Background" Value="#dbdbdb" />
@@ -217,7 +258,7 @@
                 </StackPanel>
             </Border>
 
-            <ListView Name="OperationsList" BorderThickness="0" >
+            <ListView Name="OperationsList" BorderThickness="0" ItemContainerStyle="{StaticResource ListViewItemStyle}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -233,8 +274,8 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"
                                        TextWrapping="Wrap" Width="180"/>
-
-                                <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center">
+                                <Button Name="DeleteButton" Focusable="False" Style="{StaticResource DefaultOperationButton}" 
+                                        VerticalAlignment="Center">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="Images/appbar.delete.png" 
                                         Width="30" Height="30"

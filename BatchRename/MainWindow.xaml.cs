@@ -26,6 +26,8 @@ namespace BatchRename
 
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
+        private BackgroundWorker fetchFoldersWorker;
+        private BackgroundWorker excludeFoldersWorker;
 
         public MainWindow()
         {
