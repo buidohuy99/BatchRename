@@ -102,7 +102,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+        <Style x:Key="OperationItemStyle" TargetType="{x:Type ListViewItem}">
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -114,6 +114,21 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="#dbdbdb" />
+                    <Setter Property="BorderBrush" Value="#9c9c9c" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="true">
+                    <Setter Property="Background" Value="#9c9c9c" />
+                    <Setter Property="BorderBrush" Value="#dbdbdb" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Foreground" Value="Black" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
                     <Setter Property="Background" Value="#dbdbdb" />
@@ -258,7 +273,7 @@
                 </StackPanel>
             </Border>
 
-            <ListView Name="OperationsList" BorderThickness="0" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+            <ListView Name="OperationsList" BorderThickness="0" ItemContainerStyle="{StaticResource OperationItemStyle}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -290,6 +305,10 @@
             </ListView>
 
         </DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10,3">
+            <TextBlock Text="Output: " FontWeight="Bold"/>
+            <TextBlock Name="LoadingOutput" TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
         <ProgressBar Name="LoadingBar" DockPanel.Dock="Top" Height="10" Margin="20,5,20,5" Foreground="#bdd2ff"/>
         <TabControl Name="RenameTabControl" BorderBrush="LightGray" BorderThickness="1,1,0,0" >
             <TabItem Style="{DynamicResource DefaultTab}" FocusVisualStyle="{x:Null}">

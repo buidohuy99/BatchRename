@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -71,6 +72,25 @@ namespace BatchRename
             excludeFilesWorker.ProgressChanged += ProgressChanged;
             excludeFilesWorker.RunWorkerCompleted += RunWorkerCompleted;
 
+            //Create fetch folders worker to invoke on click
+            fetchFoldersWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true
+            };
+            fetchFoldersWorker.DoWork += FetchFolders_DoWork;
+            fetchFoldersWorker.ProgressChanged += ProgressChanged;
+            fetchFoldersWorker.RunWorkerCompleted += RunWorkerCompleted;
+
+            //Create exclude files worker to invoke on click
+            excludeFoldersWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true,
+            };
+            excludeFoldersWorker.DoWork += ExcludeFolders_DoWork;
+            excludeFoldersWorker.ProgressChanged += ProgressChanged;
+            excludeFoldersWorker.RunWorkerCompleted += RunWorkerCompleted;
 
         }
 
@@ -103,12 +123,15 @@ namespace BatchRename
         private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             LoadingBar.Value = e.ProgressPercentage;
+            if(e.UserState != null)
+                LoadingOutput.Text = (string)e.UserState;
         }
 
         private void FetchFiles_DoWork(object sender, DoWorkEventArgs e)
         {
             string path = (string)e.Argument + "\\";
             var children = Directory.GetFiles(path);
+            StringBuilder output = new StringBuilder();
 
             for (int child = 0; child < children.Length; child++)
             {
@@ -125,12 +148,20 @@ namespace BatchRename
                     }
                 }
 
-                if (!isDuplicated)
-                Dispatcher.Invoke(() => {
-                    filesList.Add(new FileObj() { Name = childName, Path = path });
-                });
+                output.Clear();
+                string result = "Skip duplicate ";
+                if (!isDuplicated) { 
+                    result = "Add ";
+                    Dispatcher.Invoke(() =>
+                    {
+                        filesList.Add(new FileObj() { Name = childName, Path = path });
+                    });
+                }
+                output.Append(result);
+                output.Append(path);
+                output.Append(childName);
                 
-                fetchFilesWorker.ReportProgress((child * 100/children.Length));
+                fetchFilesWorker.ReportProgress((child * 100/children.Length), output.ToString());
             }
         }
 
@@ -140,13 +171,28 @@ namespace BatchRename
 
             int amount = items.Count;
 
+            StringBuilder output = new StringBuilder();
+
             for (int item = 0; item < amount; item++)
             {
                 Dispatcher.Invoke(()=> {
                     filesList.Remove(items[item]);
                 });
-                excludeFilesWorker.ReportProgress((item * 100 / amount));
+                output.Clear();
+                output.Append("Remove ");
+                output.Append(items[item].Path + items[item].Name);
+                excludeFilesWorker.ReportProgress((item * 100 / amount), output.ToString());
             }
+        }
+
+        private void FetchFolders_DoWork(object sender, DoWorkEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ExcludeFolders_DoWork(object sender, DoWorkEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         //-------------------------Button Clicks Implements---------------------------------
@@ -155,6 +201,7 @@ namespace BatchRename
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             LoadingBar.Value = 0;
+            LoadingOutput.Text = "";
             filesList.Clear();
             Mouse.OverrideCursor = null;
         }
