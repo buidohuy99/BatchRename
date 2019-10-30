@@ -108,7 +108,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListViewItem}">
                         <Border BorderThickness="1" Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}">
+                                BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="10">
                             <ContentPresenter/>
                         </Border>
                     </ControlTemplate>
@@ -140,6 +140,22 @@
                     <Setter Property="Foreground" Value="White" />
                 </Trigger>
             </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ListViewHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="Black" Background="Transparent">
+                            <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="AllowDrop" Value="False"/>
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="13" />
         </Style>
 
     </Window.Resources>
@@ -282,7 +298,7 @@
                 </StackPanel>
             </Border>
 
-            <ListView Name="OperationsList" BorderThickness="0" ItemContainerStyle="{StaticResource OperationItemStyle}">
+            <ListView Name="OperationsList" BorderThickness="0" ItemContainerStyle="{StaticResource OperationItemStyle}" Padding="10,2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -297,7 +313,7 @@
 
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"
-                                       TextWrapping="Wrap" Width="180"/>
+                                       TextWrapping="Wrap" Width="150"/>
                                 <Button Name="DeleteButton" Focusable="False" Style="{StaticResource DefaultOperationButton}" 
                                         VerticalAlignment="Center" Click="DeleteButton_Click" Tag="{Binding}">
 
@@ -348,12 +364,12 @@
                         </StackPanel>
                     </Border>
                     <ListView Name="RenameFilesList" BorderThickness="0"
-                              ItemContainerStyle="{StaticResource ListViewItemStyle}">
+                              ItemContainerStyle="{StaticResource ListViewItemStyle}" Padding="10,2">
                         <ListView.View>
-                            <GridView>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeaderStyle}" AllowsColumnReorder="False">
                                 <GridViewColumn Header="Filename" Width="120" DisplayMemberBinding= "{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
-                                <GridViewColumn Header="New Filename" Width="150" DisplayMemberBinding= "{Binding NewName, UpdateSourceTrigger=PropertyChanged}"/>
-                                <GridViewColumn Header="Path" Width="150" DisplayMemberBinding= "{Binding Path, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="New Filename" Width="120" DisplayMemberBinding= "{Binding NewName, UpdateSourceTrigger=PropertyChanged}"/>
+                                <GridViewColumn Header="Path" Width="155" DisplayMemberBinding= "{Binding Path, UpdateSourceTrigger=PropertyChanged}"/>
                                 <GridViewColumn Header="Error" Width="150" DisplayMemberBinding= "{Binding Error, UpdateSourceTrigger=PropertyChanged}"/>
                             </GridView>
                         </ListView.View>
