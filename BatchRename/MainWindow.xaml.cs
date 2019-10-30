@@ -25,6 +25,9 @@ namespace BatchRename
         private List<StringOperationPrototype> addMethodPrototypes;
         public BindingList<StringOperation> operationsList;
 
+        public List<StringOperation> FileOperationsList;
+        public List<StringOperation> FolderOperationsList;
+
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
         private BackgroundWorker fetchFoldersWorker;
@@ -36,6 +39,8 @@ namespace BatchRename
             filesList = new BindingList<FileObj>();
             foldersList = new BindingList<FolderObj>();
             operationsList = new BindingList<StringOperation>();
+            FileOperationsList = new List<StringOperation>();
+            FolderOperationsList = new List<StringOperation>();
 
             //Populate prototypes
             addMethodPrototypes = new List<StringOperationPrototype>
@@ -374,6 +379,29 @@ namespace BatchRename
         {
             StringOperation local = ((sender as System.Windows.Controls.Button).Tag as StringOperation);
             operationsList.Remove(local);
+        }
+
+        private void RenameTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((string)(RenameTabControl.SelectedItem as TabItem).Header == "Rename Files")
+            {
+                FolderOperationsList = new List<StringOperation>(operationsList);
+                operationsList.Clear();
+                for (int i = 0; i < FileOperationsList.Count; i++)
+                {
+                    operationsList.Add(FileOperationsList[i]);
+                }
+                
+            }
+            if ((string)(RenameTabControl.SelectedItem as TabItem).Header == "Rename Folders")
+            {
+                FileOperationsList = new List<StringOperation>(operationsList);
+                operationsList.Clear();
+                for (int i = 0; i < FolderOperationsList.Count; i++)
+                {
+                    operationsList.Add(FolderOperationsList[i]);
+                }
+            }
         }
 
 
