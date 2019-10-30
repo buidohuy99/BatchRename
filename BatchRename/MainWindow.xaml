@@ -234,7 +234,8 @@
                                 <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"
                                        TextWrapping="Wrap" Width="180"/>
 
-                                <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center">
+                                <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center" 
+                                        Click="DeleteButton_Click" Tag="{Binding}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="Images/appbar.delete.png" 
                                         Width="30" Height="30"

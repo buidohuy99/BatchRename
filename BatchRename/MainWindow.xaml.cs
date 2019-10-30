@@ -245,5 +245,12 @@ namespace BatchRename
             }
             
         }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            StringOperation local = ((sender as System.Windows.Controls.Button).Tag as StringOperation);
+            operationsList.Remove(local);
+        }
+
     }
 }
