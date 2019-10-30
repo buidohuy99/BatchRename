@@ -336,11 +336,8 @@
             <TextBlock Name="LoadingOutput" TextTrimming="CharacterEllipsis"/>
         </StackPanel>
         <ProgressBar Name="LoadingBar" DockPanel.Dock="Top" Height="10" Margin="20,5,20,5" Foreground="#bdd2ff"/>
-        <TabControl Name="RenameTabControl" BorderBrush="LightGray" BorderThickness="1,1,0,0" >
-            <TabItem Style="{DynamicResource DefaultTab}" FocusVisualStyle="{x:Null}">
-                <TabItem.Header>
-                    <TextBlock Text="Rename Files"/>
-                </TabItem.Header>
+        <TabControl Name="RenameTabControl" BorderBrush="LightGray" BorderThickness="1,1,0,0" SelectionChanged="RenameTabControl_SelectionChanged">
+            <TabItem Style="{DynamicResource DefaultTab}" FocusVisualStyle="{x:Null}" Header="Rename Files">
                 <DockPanel LastChildFill="True">
                     <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" DockPanel.Dock="Top">
                         <StackPanel Orientation="Horizontal" Height="30">
@@ -376,10 +373,8 @@
                     </ListView>
                 </DockPanel>
             </TabItem>
-            <TabItem Style="{DynamicResource DefaultTab}" FocusVisualStyle="{x:Null}">
-                <TabItem.Header>
-                    <TextBlock Text="Rename Folders"/>
-                </TabItem.Header>
+            <TabItem Style="{DynamicResource DefaultTab}" FocusVisualStyle="{x:Null}" Header="Rename Folders">
+
                 <DockPanel LastChildFill="True">
                     <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" DockPanel.Dock="Top">
                         <StackPanel Orientation="Horizontal" Height="30">
