@@ -10,11 +10,42 @@
     <Window.Resources>
 
         <Style x:Key="DefaultButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                    <Setter Property="Cursor" Value="None"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#9c9c9c" Offset="0" />
+                                <GradientStop Color="#dbdbdb" Offset="1" />
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DefaultOperationButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="15" Background="{TemplateBinding Background}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -71,6 +102,31 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="OperationItemStyle" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border BorderThickness="1" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="#dbdbdb" />
+                    <Setter Property="BorderBrush" Value="#9c9c9c" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="true">
+                    <Setter Property="Background" Value="#9c9c9c" />
+                    <Setter Property="BorderBrush" Value="#dbdbdb" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
             <Setter Property="Foreground" Value="Black" />
             <Style.Triggers>
@@ -106,6 +162,15 @@
                                            Width="30" Height="30" Margin="0,0,5,0"
                                            RenderOptions.BitmapScalingMode="HighQuality"/>
                         <TextBlock Text="Options" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Name="PreviewButton" Click="PreviewButton_Click" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Images/appbar.eye.png" 
+                                           Width="30" Height="30" Margin="0,0,5,0"
+                                           RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <TextBlock Text="Preview Rename" VerticalAlignment="Center" Margin="0,0,10,0"/>
                     </StackPanel>
                 </Button>
 
@@ -217,7 +282,7 @@
                 </StackPanel>
             </Border>
 
-            <ListView Name="OperationsList" BorderThickness="0" >
+            <ListView Name="OperationsList" BorderThickness="0" ItemContainerStyle="{StaticResource OperationItemStyle}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
@@ -233,9 +298,9 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock VerticalAlignment="Center" Margin="10,0,5,0" Text="{Binding Description}"
                                        TextWrapping="Wrap" Width="180"/>
+                                <Button Name="DeleteButton" Focusable="False" Style="{StaticResource DefaultOperationButton}" 
+                                        VerticalAlignment="Center" Click="DeleteButton_Click" Tag="{Binding}">
 
-                                <Button Name="DeleteButton" Focusable="False" Style="{DynamicResource DefaultButton}" VerticalAlignment="Center" 
-                                        Click="DeleteButton_Click" Tag="{Binding}">
                                     <StackPanel Orientation="Horizontal">
                                         <Image Source="Images/appbar.delete.png" 
                                         Width="30" Height="30"
@@ -250,6 +315,10 @@
             </ListView>
 
         </DockPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10,3">
+            <TextBlock Text="Output: " FontWeight="Bold"/>
+            <TextBlock Name="LoadingOutput" TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
         <ProgressBar Name="LoadingBar" DockPanel.Dock="Top" Height="10" Margin="20,5,20,5" Foreground="#bdd2ff"/>
         <TabControl Name="RenameTabControl" BorderBrush="LightGray" BorderThickness="1,1,0,0" >
             <TabItem Style="{DynamicResource DefaultTab}" FocusVisualStyle="{x:Null}">

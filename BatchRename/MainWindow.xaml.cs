@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +27,8 @@ namespace BatchRename
 
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
+        private BackgroundWorker fetchFoldersWorker;
+        private BackgroundWorker excludeFoldersWorker;
 
         public MainWindow()
         {
@@ -69,6 +72,25 @@ namespace BatchRename
             excludeFilesWorker.ProgressChanged += ProgressChanged;
             excludeFilesWorker.RunWorkerCompleted += RunWorkerCompleted;
 
+            //Create fetch folders worker to invoke on click
+            fetchFoldersWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true
+            };
+            fetchFoldersWorker.DoWork += FetchFolders_DoWork;
+            fetchFoldersWorker.ProgressChanged += ProgressChanged;
+            fetchFoldersWorker.RunWorkerCompleted += RunWorkerCompleted;
+
+            //Create exclude folders worker to invoke on click
+            excludeFoldersWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true,
+            };
+            excludeFoldersWorker.DoWork += ExcludeFolders_DoWork;
+            excludeFoldersWorker.ProgressChanged += ProgressChanged;
+            excludeFoldersWorker.RunWorkerCompleted += RunWorkerCompleted;
 
         }
 
@@ -80,6 +102,7 @@ namespace BatchRename
             ExcludeFileButton.IsEnabled = false;
             AddFolderButton.IsEnabled = false;
             ExcludeFolderButton.IsEnabled = false;
+            StartButton.IsEnabled = false;
         }
 
         private void EnableLoadingViews()
@@ -88,12 +111,14 @@ namespace BatchRename
             ExcludeFileButton.IsEnabled = true;
             AddFolderButton.IsEnabled = true;
             ExcludeFolderButton.IsEnabled = true;
+            StartButton.IsEnabled = true;
         }
 
         private void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             LoadingBar.Value = 100;
             Mouse.OverrideCursor = null;
+            LoadingOutput.Text = "Action completed";
 
             EnableLoadingViews();
         }
@@ -101,12 +126,15 @@ namespace BatchRename
         private void ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             LoadingBar.Value = e.ProgressPercentage;
+            if(e.UserState != null)
+                LoadingOutput.Text = (string)e.UserState;
         }
 
         private void FetchFiles_DoWork(object sender, DoWorkEventArgs e)
         {
             string path = (string)e.Argument + "\\";
             var children = Directory.GetFiles(path);
+            StringBuilder output = new StringBuilder();
 
             for (int child = 0; child < children.Length; child++)
             {
@@ -123,12 +151,20 @@ namespace BatchRename
                     }
                 }
 
-                if (!isDuplicated)
-                Dispatcher.Invoke(() => {
-                    filesList.Add(new FileObj() { Name = childName, Path = path });
-                });
+                output.Clear();
+                string result = "Skip duplicate ";
+                if (!isDuplicated) { 
+                    result = "Add ";
+                    Dispatcher.Invoke(() =>
+                    {
+                        filesList.Add(new FileObj() { Name = childName, Path = path });
+                    });
+                }
+                output.Append(result);
+                output.Append(path);
+                output.Append(childName);
                 
-                fetchFilesWorker.ReportProgress((child * 100/children.Length));
+                fetchFilesWorker.ReportProgress((child * 100/children.Length), output.ToString());
             }
         }
 
@@ -138,12 +174,76 @@ namespace BatchRename
 
             int amount = items.Count;
 
+            StringBuilder output = new StringBuilder();
+
             for (int item = 0; item < amount; item++)
             {
                 Dispatcher.Invoke(()=> {
                     filesList.Remove(items[item]);
                 });
-                excludeFilesWorker.ReportProgress((item * 100 / amount));
+                output.Clear();
+                output.Append("Remove ");
+                output.Append(items[item].Path + items[item].Name);
+                excludeFilesWorker.ReportProgress((item * 100 / amount), output.ToString());
+            }
+        }
+
+        private void FetchFolders_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string path = (string)e.Argument + "\\";
+            var children = Directory.GetDirectories(path);
+            StringBuilder output = new StringBuilder();
+
+            for (int child = 0; child < children.Length; child++)
+            {
+                bool isDuplicated = false;
+                string childName = children[child].Remove(0, path.Length);
+
+                //Check duplicates
+                for (int i = 0; i < foldersList.Count; i++)
+                {
+                    if (foldersList[i].Name.Equals(childName) && foldersList[i].Path.Equals(path))
+                    {
+                        isDuplicated = true;
+                        break;
+                    }
+                }
+
+                output.Clear();
+                string result = "Skip duplicate ";
+                if (!isDuplicated)
+                {
+                    result = "Add ";
+                    Dispatcher.Invoke(() =>
+                    {
+                        foldersList.Add(new FolderObj() { Name = childName, Path = path });
+                    });
+                }
+                output.Append(result);
+                output.Append(path);
+                output.Append(childName);
+
+                fetchFoldersWorker.ReportProgress((child * 100 / children.Length), output.ToString());
+            }
+        }
+
+        private void ExcludeFolders_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var items = ((IList<object>)e.Argument).Cast<FolderObj>().ToList();
+
+            int amount = items.Count;
+
+            StringBuilder output = new StringBuilder();
+
+            for (int item = 0; item < amount; item++)
+            {
+                Dispatcher.Invoke(() => {
+                    foldersList.Remove(items[item]);
+                });
+                output.Clear();
+                output.Append("Remove ");
+                output.Append(items[item].Path + items[item].Name);
+                excludeFoldersWorker.ReportProgress((item * 100 / amount), output.ToString());
             }
         }
 
@@ -153,7 +253,9 @@ namespace BatchRename
         {
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             LoadingBar.Value = 0;
+            LoadingOutput.Text = "";
             filesList.Clear();
+            foldersList.Clear();
             Mouse.OverrideCursor = null;
         }
 
@@ -192,7 +294,8 @@ namespace BatchRename
 
         private void AddFileButton_Click(object sender, RoutedEventArgs e)
         {
-            if (fetchFilesWorker.IsBusy || excludeFilesWorker.IsBusy) return;
+            if (fetchFilesWorker.IsBusy || fetchFoldersWorker.IsBusy 
+                || excludeFilesWorker.IsBusy || excludeFoldersWorker.IsBusy) return;
             var dialog = new FolderBrowserDialog();
 
             if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -208,7 +311,9 @@ namespace BatchRename
 
         private void ExcludeFileButton_Click(object sender, RoutedEventArgs e)
         {
-            if (fetchFilesWorker.IsBusy || excludeFilesWorker.IsBusy || filesList.Count <= 0) return;
+            if (fetchFilesWorker.IsBusy || fetchFoldersWorker.IsBusy
+                || excludeFilesWorker.IsBusy || excludeFoldersWorker.IsBusy 
+                || filesList.Count <= 0) return;
             Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
 
             DisableLoadingViews();
@@ -218,12 +323,30 @@ namespace BatchRename
 
         private void AddFolderButton_Click(object sender, RoutedEventArgs e)
         {
+            if (fetchFilesWorker.IsBusy || fetchFoldersWorker.IsBusy
+                || excludeFilesWorker.IsBusy || excludeFoldersWorker.IsBusy) return;
+            var dialog = new FolderBrowserDialog();
 
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+
+                DisableLoadingViews();
+                LoadingBar.Value = 0;
+                fetchFoldersWorker.RunWorkerAsync(dialog.SelectedPath);
+            }
         }
 
         private void ExcludeFolderButton_Click(object sender, RoutedEventArgs e)
         {
+            if (fetchFilesWorker.IsBusy || fetchFoldersWorker.IsBusy
+                || excludeFilesWorker.IsBusy || excludeFoldersWorker.IsBusy
+                || foldersList.Count <= 0) return;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
 
+            DisableLoadingViews();
+            LoadingBar.Value = 0;
+            excludeFoldersWorker.RunWorkerAsync(RenameFoldersList.SelectedItems);
         }
 
         private void OperationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -246,11 +369,17 @@ namespace BatchRename
             
         }
 
+
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             StringOperation local = ((sender as System.Windows.Controls.Button).Tag as StringOperation);
             operationsList.Remove(local);
         }
 
+
+        private void PreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

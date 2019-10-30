@@ -192,5 +192,8 @@
     <Resource Include="Images\app.configuration.png" />
     <Resource Include="Images\app.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\appbar.eye.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
