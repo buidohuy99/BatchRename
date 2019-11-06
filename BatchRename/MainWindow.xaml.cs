@@ -25,8 +25,8 @@ namespace BatchRename
         private List<StringOperationPrototype> addMethodPrototypes;
         public BindingList<StringOperation> operationsList;
 
-        public List<StringOperation> FileOperationsList;
-        public List<StringOperation> FolderOperationsList;
+        public BindingList<StringOperation> FileOperationsList;
+        public BindingList<StringOperation> FolderOperationsList;
 
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
@@ -38,9 +38,11 @@ namespace BatchRename
             InitializeComponent();
             filesList = new BindingList<FileObj>();
             foldersList = new BindingList<FolderObj>();
-            operationsList = new BindingList<StringOperation>();
-            FileOperationsList = new List<StringOperation>();
-            FolderOperationsList = new List<StringOperation>();
+
+            
+            FileOperationsList = new BindingList<StringOperation>();
+            FolderOperationsList = new BindingList<StringOperation>();
+            operationsList = FileOperationsList;//new BindingList<StringOperation>();
 
             //Populate prototypes
             addMethodPrototypes = new List<StringOperationPrototype>
@@ -385,22 +387,36 @@ namespace BatchRename
         {
             if ((string)(RenameTabControl.SelectedItem as TabItem).Header == "Rename Files")
             {
-                FolderOperationsList = new List<StringOperation>(operationsList);
-                operationsList.Clear();
-                for (int i = 0; i < FileOperationsList.Count; i++)
-                {
-                    operationsList.Add(FileOperationsList[i]);
-                }
+                operationsList = FileOperationsList;
+                OperationsList.ItemsSource = operationsList;
+                
+                //FolderOperationsList = new List<StringOperation>(operationsList);
+                //operationsList = new BindingList<StringOperation>(FileOperationsList);
+                //OperationsList.ItemsSource = operationsList;
+
+
+                //operationsList.Clear();
+
+                //for (int i = 0; i < FileOperationsList.Count; i++)
+                //{
+                //    operationsList.Add(FileOperationsList[i]);
+                //}
                 
             }
             if ((string)(RenameTabControl.SelectedItem as TabItem).Header == "Rename Folders")
             {
-                FileOperationsList = new List<StringOperation>(operationsList);
-                operationsList.Clear();
-                for (int i = 0; i < FolderOperationsList.Count; i++)
-                {
-                    operationsList.Add(FolderOperationsList[i]);
-                }
+                operationsList = FolderOperationsList;
+                OperationsList.ItemsSource = operationsList;
+
+                //FileOperationsList = new List<StringOperation>(operationsList);
+                //operationsList = new BindingList<StringOperation>(FolderOperationsList);
+                //OperationsList.ItemsSource = operationsList;
+
+                //operationsList.Clear();
+                //for (int i = 0; i < FolderOperationsList.Count; i++)
+                //{
+                //    operationsList.Add(FolderOperationsList[i]);
+                //}
             }
         }
 

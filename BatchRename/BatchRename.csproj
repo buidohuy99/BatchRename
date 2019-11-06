@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BatchRenameManager.cs" />
     <Compile Include="FullnameNormalizeOperation.cs" />
     <Compile Include="MoveOperation.cs" />
     <Compile Include="MoveOperationDialog.xaml.cs">
