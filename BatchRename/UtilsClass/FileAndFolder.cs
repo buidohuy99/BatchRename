@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace BatchRename.UtilsClass
     class FileObj : INotifyPropertyChanged
     {
         private string _name, _newName, _path, _error;
+
+        private FileInfo _fileInfo;
 
         public string Name
         {

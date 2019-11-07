@@ -164,7 +164,7 @@ namespace BatchRename
                     result = "Add ";
                     Dispatcher.Invoke(() =>
                     {
-                        filesList.Add(new FileObj() { Name = childName, Path = path });
+                        filesList.Add(new FileObj() { Name = childName, Path = path, });
                     });
                 }
                 output.Append(result);
