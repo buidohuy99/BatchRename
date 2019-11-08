@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -102,6 +103,10 @@ namespace BatchRename
             excludeFoldersWorker.DoWork += ExcludeFolders_DoWork;
             excludeFoldersWorker.ProgressChanged += ProgressChanged;
             excludeFoldersWorker.RunWorkerCompleted += RunWorkerCompleted;
+
+            //Init UI Utilities down here
+            RenameFilesList.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(Thumb_DragDelta), true);
+            RenameFoldersList.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(Thumb_DragDelta), true);
 
         }
 
@@ -463,6 +468,18 @@ namespace BatchRename
                 RenameFoldersList.ItemsSource = foldersList;
             }
             
+        }
+
+        //--------------------------Utilities--------------------------
+        void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            Thumb senderAsThumb = e.OriginalSource as Thumb;
+            GridViewColumnHeader header
+                = senderAsThumb?.TemplatedParent as GridViewColumnHeader;
+            if (header?.Column.ActualWidth < header?.MinWidth)
+            {
+                header.Column.Width = header.MinWidth;
+            }
         }
     }
 }

@@ -40,6 +40,8 @@ namespace BatchRename
             errors = new List<BatchRenameError>();
             FileList = new List<FileInfo>();
             NewFileNames = new List<string>();
+            FolderList = new List<DirectoryInfo>();
+            NewFolderNames = new List<string>();
         }
 
         public List<string> GetErrorList()
