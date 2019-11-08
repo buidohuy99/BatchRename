@@ -40,26 +40,32 @@ namespace BatchRename
             switch((Args as MoveArgs).Mode)
             {
                 case "Front":
-                    try
                     {
-                        result = BringToFront(origin, (Args as MoveArgs).Number);
-                        break;
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception(e.Message);
+                        try
+                        {
+                            result = BringToFront(origin, (Args as MoveArgs).Number);
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception(e.Message);
+                        }
                     }
                     
+                    
                 case "Back":
-                    try
                     {
-                        result = BringToBack(origin, (Args as MoveArgs).Number);
-                        break;
+                        try
+                        {
+                            result = BringToBack(origin, (Args as MoveArgs).Number);
+                            break;
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception(e.Message);
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        throw new Exception(e.Message);
-                    }
+                   
             }
 
             return result;

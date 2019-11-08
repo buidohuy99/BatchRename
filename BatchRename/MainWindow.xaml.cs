@@ -28,6 +28,8 @@ namespace BatchRename
         public BindingList<StringOperation> FileOperationsList;
         public BindingList<StringOperation> FolderOperationsList;
 
+        private BatchRenameManager RenameManager;
+
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
         private BackgroundWorker fetchFoldersWorker;
@@ -43,6 +45,8 @@ namespace BatchRename
             FileOperationsList = new BindingList<StringOperation>();
             FolderOperationsList = new BindingList<StringOperation>();
             operationsList = FileOperationsList;//new BindingList<StringOperation>();
+
+            RenameManager = new BatchRenameManager();
 
             //Populate prototypes
             addMethodPrototypes = new List<StringOperationPrototype>
@@ -423,7 +427,42 @@ namespace BatchRename
 
         private void PreviewButton_Click(object sender, RoutedEventArgs e)
         {
+            // if Tab "Rename Files" is selected, perform rename on file
+            if ((string)(RenameTabControl.SelectedItem as TabItem).Header == "Rename Files")
+            {
+                List<FileObj> inputList = new List<FileObj>(filesList);
+                if (inputList.Count == 0)
+                    return;
 
+                List<StringOperation> inputOperations = new List<StringOperation>(operationsList);
+                if (operationsList.Count == 0)
+                {
+                    return;
+                }
+
+                List<FileObj> result = RenameManager.BatchRename(inputList, inputOperations);
+                filesList = new BindingList<FileObj>(result);
+                RenameFilesList.ItemsSource = filesList;
+            }
+
+            //if Tab "Rename folders" is selected, rename folders
+            else
+            {
+                List<FolderObj> inputList = new List<FolderObj>(foldersList);
+                if (inputList.Count == 0)
+                    return;
+
+                List<StringOperation> inputOperations = new List<StringOperation>(operationsList);
+                if (operationsList.Count == 0)
+                {
+                    return;
+                }
+
+                List<FolderObj> result = RenameManager.BatchRename(inputList, inputOperations);
+                foldersList = new BindingList<FolderObj>(result);
+                RenameFoldersList.ItemsSource = foldersList;
+            }
+            
         }
     }
 }
