@@ -81,7 +81,7 @@ namespace BatchRename
                 string path = fileList[i].Path + "\\" + fileList[i].Name;
                 FileInfo fileInfo = new FileInfo(path);
                 FileList.Add(fileInfo);
-                NewFileNames.Add(Path.GetFileNameWithoutExtension(fileInfo.Name));
+                NewFileNames.Add(Path.GetFileNameWithoutExtension(fileList[i].Name));
             }
 
             
@@ -123,7 +123,15 @@ namespace BatchRename
            
             }
 
-            
+            HandleDuplicateFiles();
+            for (int i = 0; i < NewFileNames.Count; i++)
+            {
+                if (result[i].NewName != NewFileNames[i])
+                {
+                    result[i].NewName = NewFileNames[i];
+                    result[i].Error = "Name changed to avoid duplication";
+                }
+            }
             return result;
 
         }
@@ -131,18 +139,18 @@ namespace BatchRename
         public List<FolderObj> BatchRename(List<FolderObj> folderList, List<StringOperation> operations)
         {
             List<FolderObj> result = new List<FolderObj>(folderList);
-            if (NewFileNames.Count != 0) // clear list to save new changed names
+            if (NewFolderNames.Count != 0) // clear list to save new changed names
             {
-                NewFileNames.Clear();
+                NewFolderNames.Clear();
             }
 
             for (int i = 0; i < folderList.Count; i++)
             {
                 string path = folderList[i].Path + "\\" + folderList[i].Name;
-                FileInfo fileInfo = new FileInfo(path);
-                FileList.Add(fileInfo);
-                NewFileNames.Add(Path.GetFileNameWithoutExtension(fileInfo.Name));
-                Debug.WriteLine(fileInfo.Name);
+                DirectoryInfo directoryInfo = new DirectoryInfo(path);
+                FolderList.Add(directoryInfo);
+                NewFolderNames.Add(directoryInfo.Name);
+                Debug.WriteLine(directoryInfo.Name);
             }
 
 
@@ -150,7 +158,7 @@ namespace BatchRename
             for (int i = 0; i < operations.Count; i++)
             {
 
-                for (int j = 0; j < NewFileNames.Count; j++)
+                for (int j = 0; j < NewFolderNames.Count; j++)
                 {
                     /*If the name is in error list, skip the rename process, to preserve the pre-error value*/
                     bool IsInErrorList = isInErrorList(j);
@@ -158,14 +166,14 @@ namespace BatchRename
                         continue;
                     try
                     {
-                        NewFileNames[j] = operations[i].OperateString(NewFileNames[j]); // perform operation
+                        NewFolderNames[j] = operations[i].OperateString(NewFolderNames[j]); // perform operation
                     }
                     catch (Exception e) //if operation has failed
                     {
                         BatchRenameError error = new BatchRenameError()
                         {
                             NameErrorIndex = j, // save the position of the string which caused the error
-                            LastNameValue = NewFileNames[j], //save the last values of the string before error
+                            LastNameValue = NewFolderNames[j], //save the last values of the string before error
                             Message = e.Message, //the error message
                         };
                         errors.Add(error);
@@ -173,13 +181,12 @@ namespace BatchRename
                 }
             }
 
-            //attach file name with its file extension and error messages that goes along with it if there's one
+            //send back error messages that goes along with the folder name if there's one
             List<string> ErrorMessages = GetErrorList();
 
             for (int i = 0; i < folderList.Count; i++)
             {
-                NewFileNames[i] += FileList[i].Extension;
-                result[i].NewName = NewFileNames[i];
+                result[i].NewName = NewFolderNames[i];
                 result[i].Error = ErrorMessages[i];
 
             }
@@ -258,7 +265,7 @@ namespace BatchRename
             }
         }
 
-        public void HandleDuplicate()
+        private void HandleDuplicateFiles()
         {
             //List<List<int>> DuplicatePositions = new List<List<int>>();
             //List<String> DuplicateVaules = new List<string>();
@@ -269,16 +276,18 @@ namespace BatchRename
 
             //}
 
-            List<String> DuplicateVaules = new List<string>();
-            if (DuplicateVaules.Count == 0)
+            var duplicateKeys = NewFileNames.GroupBy(x => x).Where(group => group.Count() > 1).Select(group => group.Key).ToList();
+            if (duplicateKeys.Count == 0)
             {
+                Debug.WriteLine("No values");
                 return;
             }
+           
 
             for (int i = 0; i < NewFileNames.Count; i++)
             {
                 int count = 0;
-                bool isDuplicate = false;
+                bool isDuplicate = true;
                 string newName = NewFileNames[i];
 
                 //Change duplicated value till it's not the case
@@ -293,7 +302,7 @@ namespace BatchRename
                         {
                             isDuplicate = true;
                             count++;
-                            newName = NewFileNames[i] + "_" + count.ToString();
+                            newName = Path.GetFileNameWithoutExtension(NewFileNames[i]) + "_" + count.ToString() + FileList[i].Extension;
                         }
                     }
 
@@ -304,7 +313,7 @@ namespace BatchRename
                         {
                             isDuplicate = true;
                             count++;
-                            NewFileNames[j] = NewFileNames[i] + "_" + count.ToString();
+                            NewFileNames[j] = NewFileNames[i] + "_" + count.ToString() + FileList[j].Extension;
 
                         }
                     }
