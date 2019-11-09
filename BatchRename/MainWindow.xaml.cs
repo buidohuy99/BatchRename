@@ -648,5 +648,57 @@ namespace BatchRename
                 header.Column.Width = header.MinWidth;
             }
         }
+
+        private void DownBottomButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = OperationsList.SelectedItem as StringOperation;
+            if (item != null)
+            {
+                operationsList.Remove(item);
+                operationsList.Add(item);
+                OperationsList.SelectedIndex = operationsList.Count - 1;
+            }
+        }
+
+        private void DownButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = OperationsList.SelectedItem as StringOperation;
+            if (item != null)
+            {
+                int index = operationsList.IndexOf(item);
+                if (index < operationsList.Count - 1)
+                {
+                    operationsList.RemoveAt(index);
+                    operationsList.Insert(index + 1, item);
+                    OperationsList.SelectedIndex = index + 1;
+                }
+            }
+        }
+
+        private void UpTopButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = OperationsList.SelectedItem as StringOperation;
+            if (item != null)
+            {
+                operationsList.Remove(item);
+                operationsList.Insert(0, item);
+                OperationsList.SelectedIndex = 0;
+            }
+        }
+
+        private void UpButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = OperationsList.SelectedItem as StringOperation;
+            if (item != null)
+            {
+                int index = operationsList.IndexOf(item);
+                if (index > 0)
+                {
+                    operationsList.RemoveAt(index);
+                    operationsList.Insert(index - 1, item);
+                    OperationsList.SelectedIndex = index - 1;
+                }
+            }
+        }
     }
 }

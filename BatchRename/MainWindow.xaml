@@ -255,7 +255,7 @@
                         
                     </Button>
 
-                    <Button Name="UpButton" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Button Name="UpButton" Focusable="False" Style="{DynamicResource DefaultButton}" Click="UpButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Images/appbar.arrow.up.png" 
                                            Width="30" Height="30"
@@ -263,7 +263,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Name="UpTopButton" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Button Name="UpTopButton" Focusable="False" Style="{DynamicResource DefaultButton}" Click="UpTopButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Images/appbar.up.top.png" 
                                            Width="30" Height="30"
@@ -271,7 +271,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Name="DownButton" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Button Name="DownButton" Focusable="False" Style="{DynamicResource DefaultButton}" Click="DownButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Images/appbar.arrow.down.png" 
                                            Width="30" Height="30"
@@ -279,7 +279,7 @@
                         </StackPanel>
                     </Button>
 
-                    <Button Name="DownBottomButton" Focusable="False" Style="{DynamicResource DefaultButton}">
+                    <Button Name="DownBottomButton" Focusable="False" Style="{DynamicResource DefaultButton}" Click="DownBottomButton_Click">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Images/appbar.down.bottom.png" 
                                            Width="30" Height="30"
