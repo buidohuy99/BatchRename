@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 
+
 using BatchRename.UtilsClass;
 
 namespace BatchRename
@@ -35,9 +36,14 @@ namespace BatchRename
         private BackgroundWorker fetchFoldersWorker;
         private BackgroundWorker excludeFoldersWorker;
 
+        private BindingList<Preset> loadedPresets; //Use for back up preset loaded
+
         public MainWindow()
         {
             InitializeComponent();
+
+            loadedPresets = new BindingList<Preset>();
+
             filesList = new BindingList<FileObj>();
             foldersList = new BindingList<FolderObj>();
 
@@ -63,6 +69,7 @@ namespace BatchRename
             RenameFoldersList.ItemsSource = foldersList;
             AddMethodButton.ContextMenu.ItemsSource = addMethodPrototypes;
             OperationsList.ItemsSource = operationsList;
+            PresetsList.ItemsSource = loadedPresets;
 
             //Create fetch files worker to invoke on click
             fetchFilesWorker = new BackgroundWorker
@@ -295,12 +302,122 @@ namespace BatchRename
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.InitialDirectory = @"C:\";
+            openFileDialog.Title = "Load";
+            openFileDialog.DefaultExt = "txt";
+            openFileDialog.Filter = "Text files (*.txt)|*.txt";
+            openFileDialog.RestoreDirectory = true;
+            if(openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var reader = new StreamReader(openFileDialog.FileName);
+                Preset preset = new Preset();
+                var tokens2 = openFileDialog.FileName.Split(new string[] { "\\" }, StringSplitOptions.None);
+                var tokens3 = tokens2[tokens2.Length - 1].Split(new string[] { "." }, StringSplitOptions.None);
+                preset.Name = tokens3[0];
+                if (reader.ReadLine() == "BatchRename")
+                {
+                    var n = int.Parse(reader.ReadLine());
+                    operationsList.Clear();
+                    for (int i = 1; i <= n; i++)
+                    {
+                        var tokens = reader.ReadLine().Split(new string[] { " - " }, StringSplitOptions.None);
+                        StringOperation operation;
+                        switch (tokens[0])
+                        {
+                            case "Replace":
+                                operation = new ReplaceOperation
+                                {
+                                    Args = new ReplaceArgs
+                                    {
+                                        From = tokens[1],
+                                        To = tokens[2]
+                                    }
+                                };
+                                operationsList.Add(operation);
+                                preset.stringOperations.Add(operation.Clone());
+                                break;
+                            case "Change Case":
+                                operation = new NewCaseStringOperation
+                                {
+                                    Args = new CaseArgs
+                                    {
+                                        Case = tokens[1]
+                                    }
+                                };
+                                operationsList.Add(operation);
+                                preset.stringOperations.Add(operation.Clone());
+                                break;
+                            case "Move":
+                                operation = new MoveOperation
+                                {
+                                    Args = new MoveArgs
+                                    {
+                                        Mode = tokens[1],
+                                        Number = int.Parse(tokens[2])
+                                    }
+                                };
+                                operationsList.Add(operation);
+                                preset.stringOperations.Add(operation.Clone());
+                                break;
+                            case "Fullname normalize":
+                                operationsList.Add(new FullnameNormalizeOperation());
+                                preset.stringOperations.Add(new FullnameNormalizeOperation());
+                                break;
+                            case "Unique name":
+                                operationsList.Add(new UniqueNameOperation());
+                                preset.stringOperations.Add(new UniqueNameOperation());
+                                break;
+                        }
+                    }
+                    loadedPresets.Add(preset);
+                    PresetsList.SelectedIndex = loadedPresets.Count() -1;
+                }
+                else
+                {
+                    System.Windows.Forms.MessageBox.Show("This txt file is not BatchRename's data");
+                }
+                reader.Close();
+                
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            //saveFileDialog.InitialDirectory = @"C:\";
+            saveFileDialog.DefaultExt = "txt";
+            saveFileDialog.Filter = "Text files (*.txt)|*.txt";
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var writer = new StreamWriter(saveFileDialog.FileName);
+                writer.WriteLine("BatchRename");
+                writer.WriteLine(operationsList.Count);
+                foreach(var StringOperation in operationsList)
+                {
+                    if (StringOperation.Name == "Replace") {
+                        string From = (StringOperation.Args as ReplaceArgs).From;
+                        string To = (StringOperation.Args as ReplaceArgs).To;
+                        writer.WriteLine($"{StringOperation.Name} - {From} - {To}");
+                    }
+                    else if (StringOperation.Name == "Move")
+                    {
+                        string Mode = (StringOperation.Args as MoveArgs).Mode;
+                        int Number = (StringOperation.Args as MoveArgs).Number;
+                        writer.WriteLine($"{StringOperation.Name} - {Mode} - {Number}");
+                    }
+                    else if (StringOperation.Name == "Change Case")
+                    {
+                        string Case = (StringOperation.Args as CaseArgs).Case;
+                        writer.WriteLine($"{StringOperation.Name} - {Case} - ");
+                    } else
+                    {
+                        writer.WriteLine($"{StringOperation.Name} - ");
+                    }
+                }
+                writer.Close();
+            }
         }
 
         private void AddFileButton_Click(object sender, RoutedEventArgs e)
@@ -360,7 +477,7 @@ namespace BatchRename
             excludeFoldersWorker.RunWorkerAsync(RenameFoldersList.SelectedItems);
         }
 
-        private void OperationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
@@ -463,6 +580,19 @@ namespace BatchRename
                 RenameFoldersList.ItemsSource = foldersList;
             }
             
+        }
+
+        private void PresetsList_DropDownClosed(object sender, EventArgs e)
+        {
+            var action = PresetsList.SelectedItem as Preset;
+            if (action != null)
+            {
+                operationsList.Clear();
+                foreach (var stringOperation in action.stringOperations)
+                {
+                    operationsList.Add(stringOperation.Clone());
+                }
+            }
         }
     }
 }

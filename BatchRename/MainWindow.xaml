@@ -287,10 +287,11 @@
 
                     <TextBlock Text="Preset" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="10,0,10,0"/>
 
-                    <ComboBox Name = "PresetsList"  Height="20" MinWidth="100">
+                    <ComboBox Name = "PresetsList"  Height="20" MinWidth="100"   
+                              DropDownClosed="PresetsList_DropDownClosed">
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>
-                                <TextBlock />
+                                <TextBlock Text="{Binding Name}" />
                             </ItemContainerTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
