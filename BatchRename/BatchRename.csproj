@@ -66,6 +66,12 @@
     <Compile Include="ChangesAlertDialog.xaml.cs">
       <DependentUpon>ChangesAlertDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FilePathChangedDialog.xaml.cs">
+      <DependentUpon>FilePathChangedDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FinishedRenameDialog.xaml.cs">
+      <DependentUpon>FinishedRenameDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderBatchRenameManager.cs" />
     <Compile Include="FullnameNormalizeOperation.cs" />
     <Compile Include="MoveOperation.cs" />
@@ -92,6 +98,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ChangesAlertDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FilePathChangedDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FinishedRenameDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

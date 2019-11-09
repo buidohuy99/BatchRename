@@ -40,9 +40,18 @@ namespace BatchRename
 
             for (int i = 1; i < input.Length; i++)
             {
+
+                //if this is the first letter in the word
                 if (input[i] >= 'a' && input[i] <= 'z' && input[i - 1] == ' ')
                 {
-                    result[i] = (char)('A' + (input[i] - 'a')); //change le
+                    result[i] = (char)('A' + (input[i] - 'a'));
+                    continue;
+                }
+
+                //if this is a letter in the word
+                if (input[i] >= 'A' && input[i] <= 'Z' && Char.IsLetter(input[i-1]))
+                {
+                    result[i] = (char)('a' + (input[i] - 'A'));
                 }
             }
             return result.ToString();

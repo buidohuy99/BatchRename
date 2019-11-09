@@ -321,7 +321,16 @@ namespace BatchRename
                     return;
                 }
                 PreviewButton_Click(sender, e);
-                fileRenameManager.CommitChange();
+                try
+                {
+                    fileRenameManager.CommitChange();
+                }
+                catch
+                {
+                    FilePathChangedDialog dialog = new FilePathChangedDialog();
+                    dialog.ShowDialog();
+                }
+                
             }
 
             //if Tab "Rename folders" is selected, rename folders
@@ -337,8 +346,19 @@ namespace BatchRename
                     return;
                 }
                 PreviewButton_Click(sender, e);
-                folderRenameManager.CommitChange();
+                try
+                {
+                    folderRenameManager.CommitChange();
+                }
+                catch
+                {
+                    FilePathChangedDialog dialog = new FilePathChangedDialog();
+                    dialog.ShowDialog();
+                }
             }
+            FinishedRenameDialog notiDialog = new FinishedRenameDialog();
+            notiDialog.ShowDialog();
+            RefreshButton_Click(sender, e);
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)

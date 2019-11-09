@@ -243,9 +243,17 @@ namespace BatchRename
 
             for (int i = 0; i < FolderList.Count; i++)
             {
-                string newPath = FolderList[i].Parent.FullName + "\\" + NewFolderNames[i];
-                if (newPath != FolderList[i].FullName)
-                    FolderList[i].MoveTo(newPath);
+                try
+                {
+                    string newPath = FolderList[i].Parent.FullName + "\\" + NewFolderNames[i];
+                    if (newPath != FolderList[i].FullName)
+                        FolderList[i].MoveTo(newPath);
+                }
+                catch
+                {
+                    throw new Exception("path changed");
+                }
+                
             }
 
 
