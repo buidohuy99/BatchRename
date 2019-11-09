@@ -37,7 +37,7 @@ namespace BatchRename
             NewFileNames = new List<string>();
         }
 
-        public List<string> GetErrorList()
+        private List<string> GetErrorList()
         {
             List<string> result = new List<string>();
             for (int i = 0; i < FileList.Count; i++) //fill list with default vaule
@@ -63,6 +63,13 @@ namespace BatchRename
             return false;
         }
 
+
+        /// <summary>
+        /// Perform Batch Rename and return the result
+        /// </summary>
+        /// <param name="fileList">The list of file wanted to batch rename</param>
+        /// <param name="operations">The list of String Operation wanted to perform on name list</param>
+        /// <returns>A list of FIleObj</returns>
         public List<FileObj> BatchRename(List<FileObj> fileList, List<StringOperation> operations)
         {
             List<FileObj> result = new List<FileObj>(fileList);
@@ -207,41 +214,32 @@ namespace BatchRename
             }
             else
             {
-                for (int i = 0; i < NewFileNames.Count; i++)
+                bool StillDuplicate = true;
+                while (StillDuplicate)
                 {
-                    int count = 0;
-                    bool isDuplicate = true;
-                    string newName = NewFileNames[i];
-
-                    //Change duplicated value till it's not the case
-                    while (isDuplicate)
+                    StillDuplicate = false;
+                    for (int i = 0; i < NewFileNames.Count; i++)
                     {
-                        isDuplicate = false;
-
-                        //check upper part of the list
+                         //check upper part of the list
                         for (int j = 0; j < i; j++)
                         {
-                            if (newName == NewFileNames[j])
+                            if (NewFileNames[i] == NewFileNames[j])
                             {
-                                isDuplicate = true;
-                                count++;
-                                newName = Path.GetFileNameWithoutExtension(NewFileNames[i]) + "_" + count.ToString() + FileList[i].Extension;
+                                StillDuplicate = true;
+                                NewFileNames[i] = FileList[i].Name;
                             }
                         }
 
                         //check lower part of the list
                         for (int j = i + 1; j < NewFileNames.Count; j++)
                         {
-                            if (newName == NewFileNames[j])
+                            if (NewFileNames[i] == NewFileNames[j])
                             {
-                                isDuplicate = true;
-                                count++;
-                                newName = Path.GetFileNameWithoutExtension(NewFileNames[i]) + "_" + count.ToString() + FileList[i].Extension;
-
+                                StillDuplicate = true;
+                                NewFileNames[j] = FileList[j].Name;
                             }
                         }
                     }
-                    NewFileNames[i] = newName;
                 }
             }
             return true;

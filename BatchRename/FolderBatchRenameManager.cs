@@ -29,7 +29,7 @@ namespace BatchRename
             NewFolderNames = new List<string>();
         }
 
-        public List<string> GetErrorList()
+        private List<string> GetErrorList()
         {
             List<string> result = new List<string>();
             for (int i = 0; i < FolderList.Count; i++) //fill list with default vaule
@@ -55,6 +55,12 @@ namespace BatchRename
             return false;
         }
 
+        /// <summary>
+        /// Perform Batch Rename and return the result
+        /// </summary>
+        /// <param name="folderList">The list of folder wanted to batch rename</param>
+        /// <param name="operations">The list of String Operation wanted to perform on name list</param>
+        /// <returns>A list of FolderObj</returns>
         public List<FolderObj> BatchRename(List<FolderObj> folderList, List<StringOperation> operations)
         {
             List<FolderObj> result = new List<FolderObj>(folderList);
@@ -158,41 +164,76 @@ namespace BatchRename
                 return false;
             }
 
-            for (int i = 0; i < NewFolderNames.Count; i++)
+            if (DuplicateMode == 1)
             {
-                int count = 0;
-                bool isDuplicate = true;
-                string newName = NewFolderNames[i];
-
-                //Change duplicated value till it's not the case
-                while (isDuplicate)
+                for (int i = 0; i < NewFolderNames.Count; i++)
                 {
-                    isDuplicate = false;
+                    int count = 0;
+                    bool isDuplicate = true;
+                    string newName = NewFolderNames[i];
 
-                    //check upper part of the list
-                    for (int j = 0; j < i; j++)
+                    //Change duplicated value till it's not the case
+                    while (isDuplicate)
                     {
-                        if (newName == NewFolderNames[j])
+                        isDuplicate = false;
+
+                        //check upper part of the list
+                        for (int j = 0; j < i; j++)
                         {
-                            isDuplicate = true;
-                            count++;
-                            newName = NewFolderNames[i] + "_" + count.ToString();
+                            if (newName == NewFolderNames[j])
+                            {
+                                isDuplicate = true;
+                                count++;
+                                newName = NewFolderNames[i] + "_" + count.ToString();
+                            }
+                        }
+
+                        //check lower part of the list
+                        for (int j = i + 1; j < NewFolderNames.Count; j++)
+                        {
+                            if (newName == NewFolderNames[j])
+                            {
+                                isDuplicate = true;
+                                count++;
+                                newName = NewFolderNames[i] + "_" + count.ToString();
+                            }
                         }
                     }
-
-                    //check lower part of the list
-                    for (int j = i + 1; j < NewFolderNames.Count; j++)
+                    NewFolderNames[i] = newName;
+                }
+            }
+            else
+            {
+                bool StillDuplicate = true;
+                while (StillDuplicate)
+                {
+                    StillDuplicate = false;
+                    for (int i = 0; i < NewFolderNames.Count; i++)
                     {
-                        if (newName == NewFolderNames[j])
+                        //check upper part of the list
+                        for (int j = 0; j < i; j++)
                         {
-                            isDuplicate = true;
-                            count++;
-                            newName = NewFolderNames[i] + "_" + count.ToString();
+                            if (NewFolderNames[i] == NewFolderNames[j])
+                            {
+                                StillDuplicate = true;
+                                NewFolderNames[i] = FolderList[i].Name;
+                            }
+                        }
+
+                        //check lower part of the list
+                        for (int j = i + 1; j < NewFolderNames.Count; j++)
+                        {
+                            if (NewFolderNames[i] == NewFolderNames[j])
+                            {
+                                StillDuplicate = true;
+                                NewFolderNames[j] = FolderList[j].Name;
+                            }
                         }
                     }
                 }
-                NewFolderNames[i] = newName;
             }
+
+            
             return true;
         }
 

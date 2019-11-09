@@ -43,6 +43,8 @@ namespace BatchRename
             {
                 DuplicateOption = 0;
             }
+            DialogResult = true;
+            Close();
         }
     }
 }
