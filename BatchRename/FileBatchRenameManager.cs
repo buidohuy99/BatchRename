@@ -191,7 +191,7 @@ namespace BatchRename
                         }
 
                         //check lower part of the list
-                        for (int j = i + 1; j > NewFileNames.Count; j++)
+                        for (int j = i + 1; j < NewFileNames.Count; j++)
                         {
                             if (newName == NewFileNames[j])
                             {
