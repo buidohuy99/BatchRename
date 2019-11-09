@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BatchRename
 {
@@ -183,7 +181,7 @@ namespace BatchRename
                     }
 
                     //check lower part of the list
-                    for (int j = i + 1; j > NewFolderNames.Count; j++)
+                    for (int j = i + 1; j < NewFolderNames.Count; j++)
                     {
                         if (newName == NewFolderNames[j])
                         {

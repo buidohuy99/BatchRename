@@ -12,8 +12,6 @@ namespace BatchRename.UtilsClass
     {
         private string _name, _newName, _path, _error;
 
-        private FileInfo _fileInfo;
-
         public string Name
         {
             get { return _name; }
