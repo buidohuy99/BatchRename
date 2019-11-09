@@ -59,7 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BatchRenameManager.cs" />
+    <Compile Include="FileBatchRenameManager.cs" />
     <Compile Include="ChangesAlertDialog.xaml.cs">
       <DependentUpon>ChangesAlertDialog.xaml</DependentUpon>
     </Compile>

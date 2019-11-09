@@ -29,7 +29,7 @@ namespace BatchRename
         public BindingList<StringOperation> FileOperationsList;
         public BindingList<StringOperation> FolderOperationsList;
 
-        private BatchRenameManager RenameManager;
+        private FileBatchRenameManager fileRenameManager;
 
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
@@ -47,7 +47,7 @@ namespace BatchRename
             FolderOperationsList = new BindingList<StringOperation>();
             operationsList = FileOperationsList;//new BindingList<StringOperation>();
 
-            RenameManager = new BatchRenameManager();
+            fileRenameManager = new FileBatchRenameManager();
 
             //Populate prototypes
             addMethodPrototypes = new List<StringOperationPrototype>
@@ -445,7 +445,7 @@ namespace BatchRename
                     return;
                 }
 
-                List<FileObj> result = RenameManager.BatchRename(inputList, inputOperations);
+                List<FileObj> result = fileRenameManager.BatchRename(inputList, inputOperations);
                 filesList = new BindingList<FileObj>(result);
                 RenameFilesList.ItemsSource = filesList;
             }
@@ -463,9 +463,9 @@ namespace BatchRename
                     return;
                 }
 
-                List<FolderObj> result = RenameManager.BatchRename(inputList, inputOperations);
-                foldersList = new BindingList<FolderObj>(result);
-                RenameFoldersList.ItemsSource = foldersList;
+                //List<FolderObj> result = fileRenameManager.BatchRename(inputList, inputOperations);
+                //foldersList = new BindingList<FolderObj>(result);
+                //RenameFoldersList.ItemsSource = foldersList;
             }
             
         }
