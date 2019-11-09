@@ -16,7 +16,7 @@ namespace BatchRename
         private List<string> NewFolderNames;
 
         private List<BatchRenameError> errors;
-        private int DuplicateMode;
+        public int DuplicateMode = 1;
 
         /// <summary>
         /// create manager to manage String Batch Renaming
@@ -117,7 +117,12 @@ namespace BatchRename
 
             }
 
-            handleDuplicateFolder();
+            //if handling fails or user refuses to change
+            if (handleDuplicateFolder() == false)
+            {
+                return result;
+            };
+
             for (int i = 0; i < NewFolderNames.Count; i++)
             {
                 if (result[i].NewName != NewFolderNames[i])
@@ -130,7 +135,7 @@ namespace BatchRename
             return result;
         }
 
-        private void handleDuplicateFolder()
+        private bool handleDuplicateFolder()
         {
             //List<List<int>> DuplicatePositions = new List<List<int>>();
             //List<String> DuplicateVaules = new List<string>();
@@ -145,9 +150,15 @@ namespace BatchRename
             if (duplicateKeys.Count == 0)
             {
                 Debug.WriteLine("No values");
-                return;
+                return true;
             }
 
+            //show duplicated names
+            ChangesAlertDialog changesAlertDialog = new ChangesAlertDialog(duplicateKeys);
+            if (changesAlertDialog.ShowDialog() != true)
+            {
+                return false;
+            }
 
             for (int i = 0; i < NewFolderNames.Count; i++)
             {
@@ -184,6 +195,7 @@ namespace BatchRename
                 }
                 NewFolderNames[i] = newName;
             }
+            return true;
         }
 
 

@@ -20,13 +20,16 @@ namespace BatchRename
     public partial class ChangesAlertDialog : Window
     {
         List<String> changedPaths;
-        public ChangesAlertDialog()
+        public ChangesAlertDialog(List<String> input)
         {
             InitializeComponent();
-            changedPaths = new List<String>();
+            changedPaths = new List<String>(input);
             ChangedFilesList.ItemsSource = changedPaths;
         }
 
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
     }
 }

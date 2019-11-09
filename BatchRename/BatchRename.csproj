@@ -59,6 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BatchRenameOptionsDialog.xaml.cs">
+      <DependentUpon>BatchRenameOptionsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileBatchRenameManager.cs" />
     <Compile Include="ChangesAlertDialog.xaml.cs">
       <DependentUpon>ChangesAlertDialog.xaml</DependentUpon>
@@ -84,6 +87,10 @@
     <Compile Include="UniqueNameOperation.cs" />
     <Compile Include="UtilsClass\DelegateCommand.cs" />
     <Compile Include="UtilsClass\FileAndFolder.cs" />
+    <Page Include="BatchRenameOptionsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ChangesAlertDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

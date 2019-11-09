@@ -279,7 +279,13 @@ namespace BatchRename
 
         private void OptionButton_Click(object sender, RoutedEventArgs e)
         {
-
+            int duplicateOption = fileRenameManager.DuplicateMode;
+            BatchRenameOptionsDialog dialog = new BatchRenameOptionsDialog(duplicateOption);
+            if (dialog.ShowDialog() == true)
+            {
+                fileRenameManager.DuplicateMode = dialog.DuplicateOption;
+                folderRenameManager.DuplicateMode = dialog.DuplicateOption;
+            }
         }
 
         private void AddMethodButton_Click(object sender, RoutedEventArgs e)
@@ -297,7 +303,36 @@ namespace BatchRename
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            if ((string)(RenameTabControl.SelectedItem as TabItem).Header == "Rename Files")
+            {
+                List<FileObj> inputList = new List<FileObj>(filesList);
+                if (inputList.Count == 0)
+                    return;
 
+                List<StringOperation> inputOperations = new List<StringOperation>(operationsList);
+                if (operationsList.Count == 0)
+                {
+                    return;
+                }
+                PreviewButton_Click(sender, e);
+                fileRenameManager.CommitChange();
+            }
+
+            //if Tab "Rename folders" is selected, rename folders
+            else
+            {
+                List<FolderObj> inputList = new List<FolderObj>(foldersList);
+                if (inputList.Count == 0)
+                    return;
+
+                List<StringOperation> inputOperations = new List<StringOperation>(operationsList);
+                if (operationsList.Count == 0)
+                {
+                    return;
+                }
+                PreviewButton_Click(sender, e);
+                folderRenameManager.CommitChange();
+            }
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
