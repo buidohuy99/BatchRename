@@ -21,12 +21,12 @@ namespace BatchRename
     {
         public delegate void OptArgsDelegate(string ChosenCase);
         public event OptArgsDelegate OptArgsChange = null;
-        CaseArg args;
+        CaseArgs args;
 
         public ChangeCaseDialog(StringArgs Arguments)
         {
             InitializeComponent();
-            args = Arguments as CaseArg;
+            args = Arguments as CaseArgs;
 
             if (args.Case == "Lower")
             {

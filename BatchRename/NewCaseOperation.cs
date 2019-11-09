@@ -3,7 +3,7 @@ using System.Text;
 
 namespace BatchRename
 {
-    public class CaseArg : StringArgs
+    public class CaseArgs : StringArgs
     {
         public string Case { get; set; }
     }
@@ -16,14 +16,14 @@ namespace BatchRename
         {
             get
             {
-                var arg = Args as CaseArg;
+                var arg = Args as CaseArgs;
                 return ($"Change the case format of the string to {arg.Case}");
             }
         }
 
         public NewCaseStringOperation()
         {
-            Args = new CaseArg()
+            Args = new CaseArgs()
             {
                 Case = "Lower",
             };
@@ -61,7 +61,7 @@ namespace BatchRename
         public override string OperateString(string input)
         {
             string result = input;
-            var arg = Args as CaseArg;
+            var arg = Args as CaseArgs;
 
             if (arg.Case == "Lower")
             {
@@ -80,15 +80,15 @@ namespace BatchRename
 
         void ChangeCaseArg(string ChosenCase)
         {
-            (Args as CaseArg).Case = ChosenCase;
+            (Args as CaseArgs).Case = ChosenCase;
         }
 
         public override StringOperation Clone()
         {
-            var oldArgs = Args as CaseArg;
+            var oldArgs = Args as CaseArgs;
             return new NewCaseStringOperation()
             {
-                Args = new CaseArg()
+                Args = new CaseArgs()
                 {
                     Case = oldArgs.Case
                 }

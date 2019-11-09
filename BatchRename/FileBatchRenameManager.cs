@@ -304,5 +304,16 @@ namespace BatchRename
 
     }
 
+    class Preset
+    {
+        public string Name { get; set; }
+        public BindingList<StringOperation> stringOperations { get; set; }
+        public Preset()
+        {
+            Name = "";
+            stringOperations = new BindingList<StringOperation>();
+        }
+    }
+
 
 }
