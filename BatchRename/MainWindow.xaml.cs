@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -29,7 +30,8 @@ namespace BatchRename
         public BindingList<StringOperation> FileOperationsList;
         public BindingList<StringOperation> FolderOperationsList;
 
-        private BatchRenameManager RenameManager;
+        private FileBatchRenameManager fileRenameManager;
+        private FolderBatchRenameManager folderRenameManager;
 
         private BackgroundWorker fetchFilesWorker;
         private BackgroundWorker excludeFilesWorker;
@@ -52,7 +54,8 @@ namespace BatchRename
             FolderOperationsList = new BindingList<StringOperation>();
             operationsList = FileOperationsList;//new BindingList<StringOperation>();
 
-            RenameManager = new BatchRenameManager();
+            fileRenameManager = new FileBatchRenameManager();
+            folderRenameManager = new FolderBatchRenameManager();
 
             //Populate prototypes
             addMethodPrototypes = new List<StringOperationPrototype>
@@ -109,6 +112,10 @@ namespace BatchRename
             excludeFoldersWorker.DoWork += ExcludeFolders_DoWork;
             excludeFoldersWorker.ProgressChanged += ProgressChanged;
             excludeFoldersWorker.RunWorkerCompleted += RunWorkerCompleted;
+
+            //Init UI Utilities down here
+            RenameFilesList.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(Thumb_DragDelta), true);
+            RenameFoldersList.AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(Thumb_DragDelta), true);
 
         }
 
@@ -557,7 +564,8 @@ namespace BatchRename
                     return;
                 }
 
-                List<FileObj> result = RenameManager.BatchRename(inputList, inputOperations);
+                List<FileObj> result = fileRenameManager.BatchRename(inputList, inputOperations);
+                filesList.Clear();
                 filesList = new BindingList<FileObj>(result);
                 RenameFilesList.ItemsSource = filesList;
             }
@@ -575,7 +583,8 @@ namespace BatchRename
                     return;
                 }
 
-                List<FolderObj> result = RenameManager.BatchRename(inputList, inputOperations);
+                List<FolderObj> result = folderRenameManager.BatchRename(inputList, inputOperations);
+                foldersList.Clear();
                 foldersList = new BindingList<FolderObj>(result);
                 RenameFoldersList.ItemsSource = foldersList;
             }
@@ -592,6 +601,17 @@ namespace BatchRename
                 {
                     operationsList.Add(stringOperation.Clone());
                 }
+            }
+        }
+        //--------------------------Utilities--------------------------
+        void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+        {
+            Thumb senderAsThumb = e.OriginalSource as Thumb;
+            GridViewColumnHeader header
+                = senderAsThumb?.TemplatedParent as GridViewColumnHeader;
+            if (header?.Column.ActualWidth < header?.MinWidth)
+            {
+                header.Column.Width = header.MinWidth;
             }
         }
     }
