@@ -247,7 +247,16 @@ namespace BatchRename
                 {
                     string newPath = FolderList[i].Parent.FullName + "\\" + NewFolderNames[i];
                     if (newPath != FolderList[i].FullName)
-                        FolderList[i].MoveTo(newPath);
+                    {
+                        //little gimmick
+                        //windows folder file are case insentitive, so can't name it if NewCase Operation is called
+                        //so we change folder's name to something different then change it back to the  right name
+                        string tempPath = FolderList[i].Parent.FullName + "\\" + NewFolderNames[i] + "_temp"; // change it to something diffirent than old name
+                        FolderList[i].MoveTo(tempPath);
+                        FolderList[i] = new DirectoryInfo(tempPath);
+                        FolderList[i].MoveTo(newPath); //change it to the right new name
+                    }
+                        
                 }
                 catch
                 {

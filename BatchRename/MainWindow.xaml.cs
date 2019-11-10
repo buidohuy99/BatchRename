@@ -346,9 +346,10 @@ namespace BatchRename
                     return;
                 }
                 PreviewButton_Click(sender, e);
+                folderRenameManager.CommitChange();
                 try
                 {
-                    folderRenameManager.CommitChange();
+                    
                 }
                 catch
                 {
